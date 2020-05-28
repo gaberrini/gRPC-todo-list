@@ -1,5 +1,12 @@
 """The Python implementation of the GRPC todolists.TodoLists client."""
 import grpc
+import os
+import sys
+from grpc._channel import _InactiveRpcError
+from grpc import StatusCode
+
+# Not good practice, add src to python path dynamically
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import proto.v1.todolists_pb2 as todolists_pb2
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc
@@ -13,8 +20,17 @@ def create_list(name: str):
     :return:
     """
     print('Calling TodoLists.Create with name {}'.format(name))
-    with grpc.insecure_channel('localhost:50051') as channel:
-        stub = todolists_pb2_grpc.TodoListsStub(channel)
-        response = stub.Create(todolists_pb2.CreateListRequest(name=name))
-    print("Create response: " + response.message)
-    return response
+    try:
+        with grpc.insecure_channel('localhost:50051') as channel:
+            stub = todolists_pb2_grpc.TodoListsStub(channel)
+            response = stub.Create(todolists_pb2.CreateListRequest(name=name))
+        print("Create response: " + response.message)
+        return response
+    except _InactiveRpcError as e:
+        print('Error creating TodoList')
+        if e.args[0].code == StatusCode.UNAVAILABLE:
+            print('Seems that the gRPC Server is Unavailable')
+
+
+if __name__ == '__main__':
+    create_list('TestList')

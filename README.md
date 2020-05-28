@@ -33,8 +33,10 @@ pipenv run .\src\run_grpc_server.py
 
 To run the test client you need to execute the following command, for the client to work successfully the gRPC server must be running.
 
+The test client will try the different gRPC available.
+
 ```
-pipenv run .\src\proto\v1\greeter_client.py
+pipenv run .\src\proto_client\todolists_client.py
 ```
 
 # Changing Proto Services and Stubs
