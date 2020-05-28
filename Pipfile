@@ -7,9 +7,12 @@ verify_ssl = true
 pydevd = "*"
 
 [packages]
-protobuf = "<3.12.2"
+protobuf = "*"
 grpcio-tools = "*"
 grpcio = "*"
+sqlalchemy = "*"
+grpcio-status = "*"
+googleapis-common-protos = "*"
 
 [requires]
 python_version = "3.7"

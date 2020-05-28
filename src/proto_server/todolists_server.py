@@ -1,13 +1,41 @@
 """The Python implementation of the GRPC todolists.TodoLists server."""
 from concurrent import futures
+from grpc_status import rpc_status
+from google.rpc import code_pb2, status_pb2
+from sqlalchemy.exc import IntegrityError
+
 import grpc
 
+import database.database as db
 import proto.v1.todolists_pb2 as todolists_pb2
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc
 
 
 class TodoLists(todolists_pb2_grpc.TodoListsServicer):
-    pass
+
+    def __init__(self):
+        self.db = db.Database()
+        self.db.create_db_tables()
+
+    @staticmethod
+    def create_todo_lists_unique_name_error(name):
+        return status_pb2.Status(
+            code=code_pb2.INVALID_ARGUMENT,
+            message='List name must be unique, list with name "{}" already exist.'.format(name),
+        )
+
+    def Create(self, request, context):
+        try:
+            print('Creating TodoList with name "{}"'.format(request.name))
+            # Insert a new entry in the TodoList table
+            new_entry_id = self.db.new_todo_list_entry(name=request.name)
+            print('TodoList created with id "{}"'.format(new_entry_id))
+            return todolists_pb2.CreateListReply(id=new_entry_id, name=request.name)
+        except IntegrityError:
+            context.abort_with_status(rpc_status.to_status(self.create_todo_lists_unique_name_error(request.name)))
+        except Exception as e:
+            print('Error in TodoLists.Create gRPC - {}'.format(e))
+            raise e
 
 
 def serve():

@@ -33,7 +33,7 @@ pipenv run .\src\run_grpc_server.py
 
 To run the test client you need to execute the following command, for the client to work successfully the gRPC server must be running.
 
-The test client will try the different gRPC available.
+The test client script will try the different gRPC methods available.
 
 ```
 pipenv run .\src\proto_client\todolists_client.py
