@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+// To avoid name crash in proto files. This is ignored by python compiler,
+// since python modules are organized according to their location.
+package todolists;
+
+// TodoLists service
+service TodoLists {
+    // Create a new list
+    rpc Create (CreateListRequest) returns (CreateListReply);
+}
+
+// Request message to create a list
+message CreateListRequest {
+    string name = 1;
+}
+
+
+// Reply of creating a list
+message CreateListReply {
+    int32 id = 1;
+    string name = 2;
+}
