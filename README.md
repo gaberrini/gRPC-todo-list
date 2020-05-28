@@ -14,7 +14,7 @@ This example was made following the [gRPC Quick Start Tutorial] for Python
 After installing the prerequisites, you must install the dependencies with the following command
 
 ```
-pipenv run python -m grpc_tools.protoc -I./api --python_out=./src --grpc_python_out=./src ./api/proto/v1/helloword.proto
+pipenv install
 ```
 
 # Running the Server-Client
