@@ -46,3 +46,9 @@ class Database(object):
             raise e
         finally:
             self.session_maker.remove()
+
+    def drop_all(self):
+        """
+        Drop all tables, used for testing
+        """
+        TodoLists.TodoList.__table__.drop(self.db_engine)

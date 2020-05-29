@@ -38,10 +38,15 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
             raise e
 
 
-def serve():
-    print('Running TodoLists gRCP server')
+def create_server():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     todolists_pb2_grpc.add_TodoListsServicer_to_server(TodoLists(), server)
-    server.add_insecure_port('[::]:50051')
+    port = server.add_insecure_port('[::]:50051')
+    return server, port
+
+
+def serve():
+    print('Running TodoLists gRCP server')
+    server, _ = create_server()
     server.start()
     server.wait_for_termination()
