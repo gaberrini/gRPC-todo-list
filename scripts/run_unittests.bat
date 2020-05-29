@@ -1,4 +1,4 @@
 cd %~dp0
-cd ..\src
+cd ..
 
-pipenv run python -m unittest --verbose
+pipenv run python -m unittest discover -s ./src --verbose

@@ -8,6 +8,8 @@ Examples:
             $ python run_grpc_server.py
 """
 import proto_server.todolists_server as todolists_server
+from config.config import GRPC_SERVER_PORT
+
 
 if __name__ == '__main__':
-    todolists_server.serve()
+    todolists_server.serve(GRPC_SERVER_PORT)

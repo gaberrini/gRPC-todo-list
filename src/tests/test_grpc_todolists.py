@@ -8,8 +8,8 @@ import unittest
 from grpc._channel import _InactiveRpcError
 from grpc import StatusCode
 
-from proto_client.create_list_stub import create_list
-from proto_client.get_list_stub import get_list
+from proto_client.stub_create_list import create_list
+from proto_client.stub_get_list import get_list
 from database.todo_lists_db_handler import TodoListDBHandler
 from tests.base_test_class import BaseTestClass
 

@@ -6,7 +6,7 @@ Examples:
         it accept an optional positional argument to define the new List `id`. If no argument is defined
         it will try to fetch a List with the id `1`
 
-            $ python get_list_stub.py 10
+            $ python stub_get_list.py 10
 
         The module can also be imported to call the `get_list` function and invoke the .Get Stub.
 
@@ -27,6 +27,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import proto.v1.todolists_pb2 as todolists_pb2  # pylint: disable=wrong-import-position
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc  # pylint: disable=wrong-import-position
+from config.config import GRPC_SERVER_PORT  # pylint: disable=wrong-import-position
 
 
 def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
@@ -42,7 +43,7 @@ def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
         If the gRPC server is UNAVAILABLE
         If a list with `list_id` do not exist in the DB
     """
-    print('Calling TodoLists.Get with List id "{}":'.format(list_id))
+    print('Calling TodoLists.Get with List id "{}"'.format(list_id))
     try:
         stub = todolists_pb2_grpc.TodoListsStub(channel)
         response = stub.Get(todolists_pb2.GetListRequest(id=list_id))
@@ -64,5 +65,5 @@ if __name__ == '__main__':
         LIST_ID = sys.argv[1]
     except IndexError:
         LIST_ID = 1
-    with grpc.insecure_channel('localhost:50051') as _channel:
-        get_list(LIST_ID, _channel)
+    with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
+        get_list(int(LIST_ID), _channel)

@@ -105,27 +105,29 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
             )))
 
 
-def create_server() -> [_Server, int]:
+def create_server(server_port: int) -> [_Server, int]:
     """
     Create a gRPC Server that handles todolists.TodoLists gRPC Service
 
-    :return: gRPC _Server, defined insecure port listened by the Server
+    :param server_port: Port to listen to
+    :return: gRPC _Server
     """
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     todolists_pb2_grpc.add_TodoListsServicer_to_server(TodoLists(), server)
-    port = server.add_insecure_port('[::]:50051')
-    return server, port
+    server.add_insecure_port('[::]:{}'.format(server_port))
+    return server
 
 
-def serve():
+def serve(server_port: int):
     """
     Create the gRPC Server that handles todolists.TodoLists gRPC Service
 
     Start it and wait for connections until its termination.
 
+    :param server_port: Port to listen to
     :return:
     """
     print('Running TodoLists gRCP server')
-    server, _ = create_server()
+    server = create_server(server_port)
     server.start()
     server.wait_for_termination()

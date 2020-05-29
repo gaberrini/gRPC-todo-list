@@ -9,6 +9,7 @@ import grpc
 import database.config as config
 import database.database as db
 from proto_server.todolists_server import create_server
+from config.config import GRPC_SERVER_PORT
 
 
 class BaseTestClass(unittest.TestCase):
@@ -31,9 +32,9 @@ class BaseTestClass(unittest.TestCase):
         config.SQL_LITE_DATABASE_PATH = config.TEST_SQL_LITE_DATABASE_PATH
         db.Database.drop_all()
         db.Database.create_db_tables()
-        self.grpc_server, port = create_server()
+        self.grpc_server = create_server(GRPC_SERVER_PORT)
         self.grpc_server.start()
-        self.grpc_insecure_channel = grpc.insecure_channel('localhost:{}'.format(port))
+        self.grpc_insecure_channel = grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT))
 
     def tearDown(self) -> None:
         """

@@ -27,6 +27,10 @@ pipenv install --dev
 
 # Running the Server-Client Stubs
 
+## Environment variables
+
+* **GRPC_SERVER_PORT**: Used by the gRPC server to listen to this port, and stubs to connect to the server.
+
 ## Server
 
 You can start the server running the `.bat` file [run_grpc_server.bat](#run-grpc-server)
@@ -41,19 +45,35 @@ pipenv run .\src\run_grpc_server.py
 
 ### New list stub
 
-You can execute the new list stub running the `.bat` file [create_list_stub.bat](#run-create-list-stub)
+You can execute the new list stub running the `.bat` file [stub_create_list.bat](#run-create-list-stub)
 
-To run the create list stub you need to execute the following command, for the stub to work successfully the gRPC server must be running.
+This script will create a new list calling the `TodoLists.Create` stub. For the stub to work successfully the gRPC server must be running.
 
-This script will create a new list calling the `TodoLists.Create` stub
+The script accept an optional parameter to define the desired list `name`, if no parameter is defined it will try to create a list with `name=TestList`
 
-The script accept an optional parameter to define the desired list name, if no parameter is defined it will try to create a list with name `TestList`
+To run the create list stub you need to execute the following command:
 
 ```
-pipenv run .\src\proto_client\create_list_stub.py listname
+pipenv run .\src\proto_client\stub_create_list.py listname
 ```
 
-The list names must be unique. If the list name already exist, the stub will fail and show an error message.
+The list names must be unique. If the list `name` already exist, the stub will fail and show an error message.
+
+### Fetch list stub
+
+You can execute the fetch list stub running the `.bat` file [stub_get_list.bat](#run-get-list-stub)
+
+This script will get a list by `id` calling the `TodoLists.Get` stub.
+
+The script accept an optional parameter to define the desired list `id`, if no parameter is defined it will try to get a list with `id=1`
+
+To run the get list stub you need to execute the following command:
+
+```
+pipenv run .\src\proto_client\stub_get_list.py id
+```
+
+If a list with that `id` does not exist, the stub will fail and show an error message.
 
 # Running tests, tests coverage and linter
 
@@ -117,10 +137,20 @@ This script will run the gRPC server
 
 This script will execute the stub to create a new List `TodoLists.Create`
 
-The script accept an optional parameter to define the List name to be created, if no parameter is defined it will create a list with the name `TestList`
+The script accept an optional parameter to define the List `name` to be created, if no parameter is defined it will create a list with the `name=TestList`
 
 ```
-./scripts/create_list_stub.bat ListName
+./scripts/stub_create_list.bat ListName
+```
+
+## Run Get List stub
+
+This script will get a List by `id` with the stub `TodoLists.Get`
+
+The script accept an optional parameter to define the List `id` to get, if no parameter is defined it will get a list with `id=1`
+
+```
+./scripts/stub_get_list.bat id
 ```
 
 ## Run unittests script
