@@ -9,6 +9,7 @@ from grpc._channel import _InactiveRpcError
 from grpc import StatusCode
 
 from proto_client.create_list_stub import create_list
+from proto_client.get_list_stub import get_list
 from database.todo_lists_db_handler import TodoListDBHandler
 from tests.base_test_class import BaseTestClass
 
@@ -76,6 +77,40 @@ class TestGrpcTodoLists(BaseTestClass):
         self.assertEqual(len(db_entries), 0, 'Error DB should have 0 entries')
         self.assertEqual(ex.exception.args[0].code, StatusCode.UNAVAILABLE)
         self.assertIn('failed to connect to all addresses', ex.exception.args[0].details)
+
+    def test_get_list(self):
+        """
+        Invoke the get list stub
+
+        :return:
+        """
+        # Data
+        test_list_id = TodoListDBHandler.new_todo_list_entry('TestList')
+
+        # When
+        response = get_list(test_list_id, self.grpc_insecure_channel)
+
+        # Then
+        db_entries = TodoListDBHandler.get_all()
+        self.assertEqual(response.id, db_entries[0].id)
+        self.assertEqual(response.name, db_entries[0].name)
+
+    def test_get_list_fail_not_found(self):
+        """
+        Invoke get list stub should fail when list is not found
+
+        :return:
+        """
+        # Data
+        invalid_id = 666
+
+        # When
+        with self.assertRaises(_InactiveRpcError) as ex:
+            get_list(invalid_id, self.grpc_insecure_channel)
+
+        # Then
+        self.assertEqual(ex.exception.args[0].code, StatusCode.NOT_FOUND)
+        self.assertIn('List id "{}" not found.'.format(invalid_id), ex.exception.args[0].details)
 
 
 if __name__ == '__main__':
