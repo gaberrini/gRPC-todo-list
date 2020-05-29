@@ -3,6 +3,27 @@ This project has been developed to practice the use of gRPC.
 
 This started the [gRPC Quick Start Tutorial] for Python. If you are new with this technologies you can read about [gRPC].
 
+# Index
+
+* [Prerequisites](#prerequisites)
+* [Install dependencies](#install-dependencies)
+* [Running the Server-Client Stubs](#running-the-server-client-stubs)
+    * [Environment variables](#environment-variables)
+    * [Server](#server)
+    * [Client Stubs](#client-stubs)
+* [Running tests, tests coverage and linter](#running-tests-tests-coverage-and-linter)
+    * [Run unittests](#run-unittests)
+    * [Run unittests with coverage](#run-unittests-with-coverage)
+    * [Run linter pylint](#run-linter-pylint)
+* [Running Scripts](#running-scripts)
+    * [Run gRPC server](#run-grpc-server)
+    * [Run Create List stub](#run-create-list-stub)
+    * [Run Get List stub](#run-get-list-stub)
+    * [Run unittests script](#run-unittests-script)
+    * [Run unittests with coverage script](#run-unittests-with-coverage-script)
+    * [Run linter pylint script](#run-linter-pylint-script)
+* [Changing Proto Services and Stubs](#changing-proto-services-and-stubs)
+
 # Prerequisites
 
 [Python 3.7] Interpreter
