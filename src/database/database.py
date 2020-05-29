@@ -17,11 +17,8 @@ class Database(object):
         """
         Create all tables added to the declarative_base Base
         """
-        try:
-            Base.metadata.create_all(cls.db_engine)
-            print("Tables created")
-        except Exception as e:
-            print("Error creating DB Tables - {}".format(e))
+        print("Creating DB tables")
+        Base.metadata.create_all(cls.db_engine)
 
     @classmethod
     def drop_all(cls):

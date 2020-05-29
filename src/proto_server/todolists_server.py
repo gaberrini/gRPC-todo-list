@@ -32,9 +32,6 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
             return todolists_pb2.CreateListReply(id=new_entry_id, name=request.name)
         except IntegrityError:
             context.abort_with_status(rpc_status.to_status(self.create_todo_lists_unique_name_error(request.name)))
-        except Exception as e:
-            print('Error in TodoLists.Create gRPC - {}'.format(e))
-            raise e
 
 
 def create_server():

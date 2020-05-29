@@ -33,8 +33,6 @@ def create_list(name: str, channel: Channel) -> Optional[todolists_pb2.CreateLis
             print('Seems that the gRPC Server is Unavailable. - {}'.format(e.args[0].details))
         elif e.args[0].code == StatusCode.INVALID_ARGUMENT:
             print(e.args[0].details)
-        else:
-            print(e.args[0].details)
         raise e
 
 

@@ -24,9 +24,6 @@ class TodoListDBHandler(Database):
         except IntegrityError as e:
             print('TodoList name must be unique. List with name "{}" already exist'.format(name))
             raise e
-        except Exception as e:
-            print('Error creating new todo list entry - {}'.format(e))
-            raise e
         finally:
             cls.session_maker.remove()
 
@@ -35,7 +32,5 @@ class TodoListDBHandler(Database):
         try:
             session = cls.session_maker()
             return session.query(TodoList).all()
-        except Exception as e:
-            print('Error getting all Lists from DB - {}'.format(e))
         finally:
             cls.session_maker.remove()
