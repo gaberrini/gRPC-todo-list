@@ -18,10 +18,79 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='todolists',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x18proto/v1/todolists.proto\x12\ttodolists\"!\n\x11\x43reateListRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"+\n\x0f\x43reateListReply\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t2O\n\tTodoLists\x12\x42\n\x06\x43reate\x12\x1c.todolists.CreateListRequest\x1a\x1a.todolists.CreateListReplyb\x06proto3'
+  serialized_pb=b'\n\x18proto/v1/todolists.proto\x12\ttodolists\"\x1c\n\x0eGetListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"$\n\x08TodoList\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\"!\n\x11\x43reateListRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"+\n\x0f\x43reateListReply\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t2\x86\x01\n\tTodoLists\x12\x42\n\x06\x43reate\x12\x1c.todolists.CreateListRequest\x1a\x1a.todolists.CreateListReply\x12\x35\n\x03Get\x12\x19.todolists.GetListRequest\x1a\x13.todolists.TodoListb\x06proto3'
 )
 
 
+
+
+_GETLISTREQUEST = _descriptor.Descriptor(
+  name='GetListRequest',
+  full_name='todolists.GetListRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='todolists.GetListRequest.id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=39,
+  serialized_end=67,
+)
+
+
+_TODOLIST = _descriptor.Descriptor(
+  name='TodoList',
+  full_name='todolists.TodoList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='todolists.TodoList.id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='todolists.TodoList.name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=69,
+  serialized_end=105,
+)
 
 
 _CREATELISTREQUEST = _descriptor.Descriptor(
@@ -50,8 +119,8 @@ _CREATELISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=39,
-  serialized_end=72,
+  serialized_start=107,
+  serialized_end=140,
 )
 
 
@@ -88,13 +157,29 @@ _CREATELISTREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=74,
-  serialized_end=117,
+  serialized_start=142,
+  serialized_end=185,
 )
 
+DESCRIPTOR.message_types_by_name['GetListRequest'] = _GETLISTREQUEST
+DESCRIPTOR.message_types_by_name['TodoList'] = _TODOLIST
 DESCRIPTOR.message_types_by_name['CreateListRequest'] = _CREATELISTREQUEST
 DESCRIPTOR.message_types_by_name['CreateListReply'] = _CREATELISTREPLY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+GetListRequest = _reflection.GeneratedProtocolMessageType('GetListRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETLISTREQUEST,
+  '__module__' : 'proto.v1.todolists_pb2'
+  # @@protoc_insertion_point(class_scope:todolists.GetListRequest)
+  })
+_sym_db.RegisterMessage(GetListRequest)
+
+TodoList = _reflection.GeneratedProtocolMessageType('TodoList', (_message.Message,), {
+  'DESCRIPTOR' : _TODOLIST,
+  '__module__' : 'proto.v1.todolists_pb2'
+  # @@protoc_insertion_point(class_scope:todolists.TodoList)
+  })
+_sym_db.RegisterMessage(TodoList)
 
 CreateListRequest = _reflection.GeneratedProtocolMessageType('CreateListRequest', (_message.Message,), {
   'DESCRIPTOR' : _CREATELISTREQUEST,
@@ -118,8 +203,8 @@ _TODOLISTS = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=119,
-  serialized_end=198,
+  serialized_start=188,
+  serialized_end=322,
   methods=[
   _descriptor.MethodDescriptor(
     name='Create',
@@ -128,6 +213,15 @@ _TODOLISTS = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_CREATELISTREQUEST,
     output_type=_CREATELISTREPLY,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='Get',
+    full_name='todolists.TodoLists.Get',
+    index=1,
+    containing_service=None,
+    input_type=_GETLISTREQUEST,
+    output_type=_TODOLIST,
     serialized_options=None,
   ),
 ])

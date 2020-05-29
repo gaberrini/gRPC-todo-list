@@ -15,8 +15,8 @@ Attributes:
     todolists_server.serve (function): Run the gRPC server and wait for stubs connections
 """
 from concurrent import futures
-from typing import Optional
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
 from grpc_status import rpc_status
 from grpc._server import _Context, _Server
 from google.rpc import code_pb2, status_pb2
@@ -41,28 +41,29 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
         Database.create_db_tables()
 
     @staticmethod
-    def create_todo_lists_unique_name_error(list_name: str) -> status_pb2.Status:
+    def create_grpc_error_status(message: str, error_code: int) -> status_pb2.Status:
         """
-        Create a gRPC error status to abort the stub invoke with an error.
+        Create a gRPC error status
 
-        This error will be created when the stub wants to create a List which name already exist in the DB.
-
-        :param list_name: name of list that already exist in the DB
-        :return: The status to be used to abort stub invoke with error
+        :param message: Description of the error
+        :param error_code: Int that represent the error, codes from code_pb2 module
+        :return: Created error status
         """
         return status_pb2.Status(
-            code=code_pb2.INVALID_ARGUMENT,
-            message='List name must be unique, list with name "{}" already exist.'.format(list_name),
+            code=error_code,
+            message=message,
         )
 
     def Create(self,
                request: todolists_pb2.CreateListRequest,
-               context: _Context) -> Optional[todolists_pb2.CreateListReply]:
+               context: _Context) -> todolists_pb2.CreateListReply:
         """
         Create New TodoList gRPC method.
         The request will contain a todolist.CreateListRequest
 
         In the field request.name will be the name of the list that the client wants to create.
+
+        If a list with that `name` already exists in the DB the gRPC will finish with an error code for INVALID_ARGUMENT
 
         :param request: Request send by the client
         :param context: grpc _Context
@@ -75,7 +76,33 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
             print('TodoList created with id "{}"'.format(new_entry_id))
             return todolists_pb2.CreateListReply(id=new_entry_id, name=request.name)
         except IntegrityError:
-            context.abort_with_status(rpc_status.to_status(self.create_todo_lists_unique_name_error(request.name)))
+            context.abort_with_status(rpc_status.to_status(self.create_grpc_error_status(
+                'List name must be unique, list with name "{}" already exist.'.format(request.name),
+                code_pb2.INVALID_ARGUMENT
+            )))
+
+    def Get(self, request: todolists_pb2.GetListRequest, context: _Context) -> todolists_pb2.TodoList:
+        """
+        Get a TodoList gRPC method.
+        The request will contain a todolist.GetListRequest
+
+        In the field request.id will be the id of the list that the client wants to fetch.
+
+        If a list with that `id` do not exist the gRPC will finish with an error code for NOT_FOUND
+
+        :param request: Request send by the client
+        :param context: grpc _Context
+        :return: TodoList
+        """
+        try:
+            print('Get TodoList with id "{}"'.format(request.id))
+            todo_list = TodoListDBHandler.get_todo_list(list_id=request.id)
+            return todolists_pb2.TodoList(id=todo_list.id, name=todo_list.name)
+        except NoResultFound:
+            context.abort_with_status(rpc_status.to_status(self.create_grpc_error_status(
+                'List id "{}" not found.'.format(request.id),
+                code_pb2.NOT_FOUND
+            )))
 
 
 def create_server() -> [_Server, int]:

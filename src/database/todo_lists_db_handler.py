@@ -4,8 +4,9 @@ This module contains the class to interact with the TodoList DB table.
 Classes:
     TodoListDBHandler(Database)
 """
-from typing import Optional, List
+from typing import List
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
 from database.database import Database
 from database.tables.todo_lists import TodoList
 
@@ -16,7 +17,7 @@ class TodoListDBHandler(Database):
     """
 
     @classmethod
-    def new_todo_list_entry(cls, name: str) -> Optional[int]:
+    def new_todo_list_entry(cls, name: str) -> int:
         """
         Create a new todoList entry in the database
 
@@ -47,5 +48,24 @@ class TodoListDBHandler(Database):
         try:
             session = cls.session_maker()
             return session.query(TodoList).all()
+        finally:
+            cls.session_maker.remove()
+
+    @classmethod
+    def get_todo_list(cls, list_id: int) -> TodoList:
+        """
+        Fetch a TodoList from the DB
+
+        :param list_id: ID of list to fetch
+        :return: TodoList
+        :raise NoResultFound: If list with that ID does not exist
+        """
+        try:
+            session = cls.session_maker()
+            todo_list = session.query(TodoList).get(list_id)
+            if not todo_list:
+                print('TodoList with id "{}" does not exist'.format(list_id))
+                raise NoResultFound()
+            return todo_list
         finally:
             cls.session_maker.remove()
