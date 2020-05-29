@@ -35,9 +35,13 @@ def create_list(name: str, channel: Channel) -> Optional[todolists_pb2.CreateLis
             print(e.args[0].details)
         else:
             print(e.args[0].details)
-        raise e
+            raise e
 
 
 if __name__ == '__main__':
-    with grpc.insecure_channel('localhost:50051') as channel:
-        create_list('TestList', channel)
+    try:
+        new_list_name = sys.argv[1]
+    except IndexError:
+        new_list_name = 'TestList'
+    with grpc.insecure_channel('localhost:50051') as _channel:
+        create_list(new_list_name, _channel)

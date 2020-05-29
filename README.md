@@ -19,9 +19,11 @@ After installing the prerequisites, you must install the dependencies with the f
 pipenv install
 ```
 
-# Running the Server-Client
+# Running the Server-Client Stubs
 
 ## Server
+
+You can start the server running the `.bat` file [run_grpc_server.bat](#run-grpc-server)
 
 To run the server you need to execute the following command
 
@@ -29,15 +31,105 @@ To run the server you need to execute the following command
 pipenv run .\src\run_grpc_server.py
 ```
 
-## Client
+## Client Stubs
 
-To run the test client you need to execute the following command, for the client to work successfully the gRPC server must be running.
+### New list stub
 
-The test client script will try the different gRPC methods available.
+You can execute the new list stub running the `.bat` file [create_list_stub.bat](#run-create-list-stub)
+
+To run the create list stub you need to execute the following command, for the stub to work successfully the gRPC server must be running.
+
+This script will create a new list calling the `TodoLists.Create` stub
+
+The script accept an optional parameter to define the desired list name, if no parameter is defined it will try to create a list with name `TestList`
 
 ```
-pipenv run .\src\proto_client\todolists_client.py
+pipenv run .\src\proto_client\create_list_stub.py listname
 ```
+
+The list names must be unique. If the list name already exist, the stub will fail and show an error message.
+
+# Running tests and coverage
+
+## Run unittests
+
+The project comes with `unittests` you can execute them with the script [run_unittests.bat](#run-unittests)
+
+If you prefer you can run them manually.
+
+To do this **YOU MUST BE LOCATED AT ./src** and execute
+
+```
+pipenv run python -m unittest --verbose
+```
+
+## Run unittests with coverage
+
+You can run the `unittests` and see the `tests coverage`. You can do it running the script [run_unittests_with_coverage.bat](#run-unittests-with-coverage)
+
+If you prefer you can run them manually.
+
+To do this **YOU MUST BE LOCATED AT ./src** and execute
+
+```
+pipenv run python -m coverage run -m unittest --verbose
+```
+
+The last command will create the `coverage` results. To display them in terminal you must run
+
+```
+pipenv run python -m coverage report
+```
+
+You can also create a `HTML report` running the following command
+
+```
+pipenv run python -m coverage html
+```
+
+After running it a `HTML report` will be created, you can find it in the following path `./src/htmlcov/index.html`
+
+# Running Scripts
+
+In the folder `/scripts` you can find different `.bat` scripts with different goals
+
+## Run gRPC server
+
+This script will run the gRPC server
+
+```
+./scripts/run_grpc_server.bat
+```
+
+## Run Create List stub
+
+This script will execute the stub to create a new List `TodoLists.Create`
+
+The script accept an optional parameter to define the List name to be created, if no parameter is defined it will create a list with the name `TestList`
+
+```
+./scripts/create_list_stub.bat ListName
+```
+
+## Run unittests
+
+This script will run the `unittests`
+
+```
+./scripts/run_unittests.bat
+```
+
+## Run unittests with coverage
+
+This script will run the `unittests` and show the tests `coverage`
+
+The `coverage report` will be display in the `terminal`.
+
+```
+./scripts/run_unittests_with_coverage.bat
+```
+
+A `HTML report` will be created, you can find it in the following path `./src/htmlcov/index.html`
 
 # Changing Proto Services and Stubs
 

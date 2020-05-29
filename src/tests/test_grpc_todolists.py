@@ -1,5 +1,5 @@
 import unittest
-from proto_client.todolists_client import create_list
+from proto_client.create_list_stub import create_list
 
 from tests.base_test_class import BaseTestClass
 
