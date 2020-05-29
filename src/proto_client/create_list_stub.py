@@ -38,8 +38,9 @@ def create_list(name: str, channel: Channel) -> todolists_pb2.CreateListReply:
 
     :return: CreateListReply of invoked stub
 
-    :raise :
-
+    :raise _InactiveRpcError:
+        If the gRPC is UNAVAILABLE
+        If a list with that name already exist in the database
     """
     print('Calling TodoLists.Create with name "{}"'.format(name))
     try:
