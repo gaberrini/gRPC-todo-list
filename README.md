@@ -60,7 +60,7 @@ If you prefer you can run them manually.
 To do this **YOU MUST BE LOCATED AT ./src** and execute
 
 ```
-pipenv run python -m unittest --verbose
+pipenv run python -m unittest discover -s ./src --verbose
 ```
 
 ## Run unittests with coverage
@@ -69,10 +69,8 @@ You can run the `unittests` and see the `tests coverage`. You can do it running 
 
 If you prefer you can run them manually.
 
-To do this **YOU MUST BE LOCATED AT ./src** and execute
-
 ```
-pipenv run python -m coverage run -m unittest --verbose
+pipenv run python -m coverage run -m unittest discover -s ./src --verbose
 ```
 
 The last command will create the `coverage` results. To display them in terminal you must run
@@ -87,7 +85,7 @@ You can also create a `HTML report` running the following command
 pipenv run python -m coverage html
 ```
 
-After running it a `HTML report` will be created, you can find it in the following path `./src/htmlcov/index.html`
+After running it a `HTML report` will be created, you can find it in the following path `./htmlcov/index.html`
 
 # Running Scripts
 
@@ -129,7 +127,7 @@ The `coverage report` will be display in the `terminal`.
 ./scripts/run_unittests_with_coverage.bat
 ```
 
-A `HTML report` will be created, you can find it in the following path `./src/htmlcov/index.html`
+A `HTML report` will be created, you can find it in the following path `./htmlcov/index.html`
 
 # Changing Proto Services and Stubs
 

@@ -1,6 +1,6 @@
 cd %~dp0
-cd ..\src
+cd ..
 
-pipenv run python -m coverage run -m unittest --verbose
+pipenv run python -m coverage run -m unittest discover -s ./src --verbose
 pipenv run python -m coverage report
 pipenv run python -m coverage html
