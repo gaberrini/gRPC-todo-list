@@ -8,6 +8,19 @@ package todolists;
 service TodoLists {
     // Create a new list
     rpc Create (CreateListRequest) returns (CreateListReply);
+    // Get a list
+    rpc Get (GetListRequest) returns (TodoList);
+}
+
+// Request to get a list
+message GetListRequest {
+    int32 id = 1;
+}
+
+// TodoList representation
+message TodoList {
+    int32 id = 1;
+    string name = 2;
 }
 
 // Request message to create a list
