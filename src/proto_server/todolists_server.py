@@ -3,10 +3,10 @@ from concurrent import futures
 from grpc_status import rpc_status
 from google.rpc import code_pb2, status_pb2
 from sqlalchemy.exc import IntegrityError
-
 import grpc
 
-import database.database as db
+from database.database import Database
+from database.todo_lists_db_handler import TodoListDBHandler
 import proto.v1.todolists_pb2 as todolists_pb2
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc
 
@@ -14,8 +14,7 @@ import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc
 class TodoLists(todolists_pb2_grpc.TodoListsServicer):
 
     def __init__(self):
-        self.db = db.Database()
-        self.db.create_db_tables()
+        Database.create_db_tables()
 
     @staticmethod
     def create_todo_lists_unique_name_error(name):
@@ -28,7 +27,7 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
         try:
             print('Creating TodoList with name "{}"'.format(request.name))
             # Insert a new entry in the TodoList table
-            new_entry_id = self.db.new_todo_list_entry(name=request.name)
+            new_entry_id = TodoListDBHandler.new_todo_list_entry(name=request.name)
             print('TodoList created with id "{}"'.format(new_entry_id))
             return todolists_pb2.CreateListReply(id=new_entry_id, name=request.name)
         except IntegrityError:
