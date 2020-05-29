@@ -2,3 +2,4 @@
 
 ignore=proto
 max-line-length=120
+disable=duplicate-code
