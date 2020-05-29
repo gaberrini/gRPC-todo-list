@@ -1,0 +1,4 @@
+[MASTER]
+
+ignore=proto
+max-line-length=120

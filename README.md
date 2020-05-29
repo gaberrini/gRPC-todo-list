@@ -1,7 +1,5 @@
 # gRPC Todo Lists
-First project to try gRPC using Python.
-
-This project has been developed to test gRPC. It has not been developed with the best practices.
+This project has been developed to practice the use of gRPC.
 
 This started the [gRPC Quick Start Tutorial] for Python. If you are new with this technologies you can read about [gRPC].
 
@@ -17,6 +15,14 @@ After installing the prerequisites, you must install the dependencies with the f
 
 ```
 pipenv install
+```
+
+## Development dependencies
+
+To install development dependencies to [run tests](#run-unittests), see [test coverage](#run-unittests-with-coverage), and run the [linter pylint](#run-linter-pylint), you must run the following command
+
+```
+pipenv install --dev
 ```
 
 # Running the Server-Client Stubs
@@ -49,15 +55,13 @@ pipenv run .\src\proto_client\create_list_stub.py listname
 
 The list names must be unique. If the list name already exist, the stub will fail and show an error message.
 
-# Running tests and coverage
+# Running tests, tests coverage and linter
 
 ## Run unittests
 
-The project comes with `unittests` you can execute them with the script [run_unittests.bat](#run-unittests)
+The project comes with `unittests` you can execute them with the script [run_unittests.bat](#run-unittests-script)
 
 If you prefer you can run them manually.
-
-To do this **YOU MUST BE LOCATED AT ./src** and execute
 
 ```
 pipenv run python -m unittest discover -s ./src --verbose
@@ -65,7 +69,7 @@ pipenv run python -m unittest discover -s ./src --verbose
 
 ## Run unittests with coverage
 
-You can run the `unittests` and see the `tests coverage`. You can do it running the script [run_unittests_with_coverage.bat](#run-unittests-with-coverage)
+You can run the `unittests` and see the `tests coverage`. You can do it running the script [run_unittests_with_coverage.bat](#run-unittests-with-coverage-script)
 
 If you prefer you can run them manually.
 
@@ -86,6 +90,16 @@ pipenv run python -m coverage html
 ```
 
 After running it a `HTML report` will be created, you can find it in the following path `./htmlcov/index.html`
+
+## Run linter pylint
+
+When doing changes to the codebase you can validate the coding standards with `pylint`. To do it you can run the script [Run linter pylint script](#run-linter-pylint-script)
+
+To do it manually you can run the following command
+
+```
+pipenv run pylint src
+```
 
 # Running Scripts
 
@@ -109,7 +123,7 @@ The script accept an optional parameter to define the List name to be created, i
 ./scripts/create_list_stub.bat ListName
 ```
 
-## Run unittests
+## Run unittests script
 
 This script will run the `unittests`
 
@@ -117,7 +131,7 @@ This script will run the `unittests`
 ./scripts/run_unittests.bat
 ```
 
-## Run unittests with coverage
+## Run unittests with coverage script
 
 This script will run the `unittests` and show the tests `coverage`
 
@@ -128,6 +142,14 @@ The `coverage report` will be display in the `terminal`.
 ```
 
 A `HTML report` will be created, you can find it in the following path `./htmlcov/index.html`
+
+## Run linter pylint script
+
+This script will run `pylint` to check the coding standards of the base code, the results will be display in the terminal.
+
+```
+./scripts/run_linter.bat
+```
 
 # Changing Proto Services and Stubs
 

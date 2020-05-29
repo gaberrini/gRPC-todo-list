@@ -4,10 +4,10 @@ This module contains the class to interact with the TodoList DB table.
 Classes:
     TodoListDBHandler(Database)
 """
-from database.database import Database
-from database.tables.TodoLists import TodoList
 from typing import Optional, List
 from sqlalchemy.exc import IntegrityError
+from database.database import Database
+from database.tables.todo_lists import TodoList
 
 
 class TodoListDBHandler(Database):
@@ -33,9 +33,9 @@ class TodoListDBHandler(Database):
             session.commit()
             new_id = new_todo_list.id
             return new_id
-        except IntegrityError as e:
+        except IntegrityError as ex:
             print('TodoList name must be unique. List with name "{}" already exist'.format(name))
-            raise e
+            raise ex
         finally:
             cls.session_maker.remove()
 

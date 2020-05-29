@@ -15,11 +15,11 @@ Attributes:
     todolists_server.serve (function): Run the gRPC server and wait for stubs connections
 """
 from concurrent import futures
+from typing import Optional
+from sqlalchemy.exc import IntegrityError
 from grpc_status import rpc_status
 from grpc._server import _Context, _Server
 from google.rpc import code_pb2, status_pb2
-from sqlalchemy.exc import IntegrityError
-from typing import Optional
 import grpc
 
 from database.database import Database

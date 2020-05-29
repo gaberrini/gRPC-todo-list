@@ -14,6 +14,9 @@ from tests.base_test_class import BaseTestClass
 
 
 class TestGrpcTodoLists(BaseTestClass):
+    """
+    gRPC Service todolists.TodoLists Tests
+    """
 
     def test_create_lists(self):
         """

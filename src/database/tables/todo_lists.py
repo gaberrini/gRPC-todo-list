@@ -5,11 +5,11 @@ it will be automatically created when src.database.database.Database.create_db_t
 Classes:
     TodoList(db.Base)
 """
-import database.database as db
 from sqlalchemy import Column, Integer, String
+import database.database as db
 
 
-class TodoList(db.Base):
+class TodoList(db.Base):  # pylint: disable=too-few-public-methods
     """
     TodoList DB Table definition
 

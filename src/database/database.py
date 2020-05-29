@@ -6,20 +6,22 @@ Attributes:
     Base (sqlalchemy.ext.declarative.api.DeclarativeMeta): Base Class to declare DB tables and generate an ORM
 
 Classes:
-    Database(object)
+    Database
 """
-import database.config as config
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.exc import OperationalError
+import database.config as config
 
 
 Base = declarative_base()
 
-from database.tables.TodoLists import TodoList
+# Import not at the top of the file because the file needs the Base attribute declared before
+from database.tables.todo_lists import TodoList  # pylint: disable=wrong-import-position
 
 
-class Database(object):
+class Database:
     """
     Database base class, extended by database handlers for the different tables
 
@@ -44,4 +46,7 @@ class Database(object):
         """
         Drop all tables, used for testing
         """
-        TodoList.__table__.drop(cls.db_engine)
+        try:
+            TodoList.__table__.drop(cls.db_engine)  # pylint: disable=no-member
+        except OperationalError:
+            print('Looks like DB table do not exits')
