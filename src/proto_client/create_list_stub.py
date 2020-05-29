@@ -1,4 +1,21 @@
-"""The Python implementation of the GRPC todolists.TodoLists client."""
+"""
+This module is used to invoke the gRPC todolists.TodoLists.Create Stub
+
+Examples:
+        This module can be executed as a script, this way it will execute the todolists.TodoLists.Create Stub,
+        it accept an optional positional argument to define the new List name. If no argument is defined
+        it will try to create a List with the name `TestList`
+
+            $ python create_list_stub.py NewListName
+
+        The module can also be imported to call the `create_list` function and invoke the .Create Stub.
+
+            $ from proto_client.create_list_stub import create_list
+            $ create_list('new_list_name', grpc_channel)
+
+Attributes:
+    create_list (function): Function use to invoke the gRPC to create a new TodoList
+"""
 import grpc
 import os
 import sys
@@ -15,11 +32,15 @@ import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc
 
 def create_list(name: str, channel: Channel) -> Optional[todolists_pb2.CreateListReply]:
     """
-    Call to the TodoLists.Create gRPC with the defined name
+    Invoke the TodoLists.Create gRPC to create a new List with the defined name
 
     :param name: name for the new list
-    :param channel:
-    :return:
+    :param channel: gRPC channel used to invoke the Stub
+
+    :return: CreateListReply of invoked stub
+
+    :raise :
+
     """
     print('Calling TodoLists.Create with name {}'.format(name))
     try:
@@ -37,6 +58,7 @@ def create_list(name: str, channel: Channel) -> Optional[todolists_pb2.CreateLis
 
 
 if __name__ == '__main__':
+    # New list name can be specified by positional arguments, if not default is used
     try:
         new_list_name = sys.argv[1]
     except IndexError:

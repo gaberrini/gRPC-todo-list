@@ -1,3 +1,9 @@
+"""
+Module with the tests for the gRPC Service todolists.TodoLists
+
+Classes:
+    TestGrpcTodoLists(BaseTestClass)
+"""
 import unittest
 from grpc._channel import _InactiveRpcError
 from grpc import StatusCode
@@ -10,6 +16,11 @@ from tests.base_test_class import BaseTestClass
 class TestGrpcTodoLists(BaseTestClass):
 
     def test_create_lists(self):
+        """
+        Invoke the create list stub and validate that the list is stored in the database
+
+        :return:
+        """
         # Data
         new_list_name = 'TestList'
 
@@ -24,6 +35,11 @@ class TestGrpcTodoLists(BaseTestClass):
         self.assertEqual(response.name, db_entries[0].name)
 
     def test_create_list_fail_unique_name(self):
+        """
+        Invoke create list stub should fail when list with that name already exist in the database
+
+        :return:
+        """
         # Data
         test_list_name = 'TestList'
         TodoListDBHandler.new_todo_list_entry(test_list_name)
@@ -39,6 +55,11 @@ class TestGrpcTodoLists(BaseTestClass):
         self.assertIn('List name must be unique', ex.exception.args[0].details)
 
     def test_create_list_fail_server_unavailable(self):
+        """
+        Invoke stub should fail when the server is UNAVAILABLE.
+
+        :return:
+        """
         # Data
         test_list_name = 'TestList'
         self.grpc_server.stop(None)
