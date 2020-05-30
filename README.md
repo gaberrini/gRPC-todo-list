@@ -11,14 +11,18 @@ This started the [gRPC Quick Start Tutorial] for Python. If you are new with thi
     * [Environment variables](#environment-variables)
     * [Server](#server)
     * [Client Stubs](#client-stubs)
+        * [New list stub](#new-list-stub)
+        * [Fetch list stub](#fetch-list-stub)
+        * [Delete list stub](#delete-list-stub)
 * [Running tests, tests coverage and linter](#running-tests-tests-coverage-and-linter)
     * [Run unittests](#run-unittests)
     * [Run unittests with coverage](#run-unittests-with-coverage)
     * [Run linter pylint](#run-linter-pylint)
 * [Running Scripts](#running-scripts)
-    * [Run gRPC server](#run-grpc-server)
-    * [Run Create List stub](#run-create-list-stub)
-    * [Run Get List stub](#run-get-list-stub)
+    * [Run gRPC server script](#run-grpc-server-script)
+    * [Run Create List stub script](#run-create-list-stub-script)
+    * [Run Get List stub script](#run-get-list-stub-script)
+    * [Run Delete List stub script](#run-delete-list-stub-script)
     * [Run unittests script](#run-unittests-script)
     * [Run unittests with coverage script](#run-unittests-with-coverage-script)
     * [Run linter pylint script](#run-linter-pylint-script)
@@ -54,7 +58,7 @@ pipenv install --dev
 
 ## Server
 
-You can start the server running the `.bat` file [run_grpc_server.bat](#run-grpc-server)
+You can start the server running the `.bat` file [run_grpc_server.bat](#run-grpc-server-script)
 
 To run the server you need to execute the following command
 
@@ -66,7 +70,7 @@ pipenv run .\src\run_grpc_server.py
 
 ### New list stub
 
-You can execute the new list stub running the `.bat` file [stub_create_list.bat](#run-create-list-stub)
+You can execute the new list stub running the `.bat` file [stub_create_list.bat](#run-create-list-stub-script)
 
 This script will create a new list calling the `TodoLists.Create` stub. For the stub to work successfully the gRPC server must be running.
 
@@ -82,7 +86,7 @@ The list names must be unique. If the list `name` already exist, the stub will f
 
 ### Fetch list stub
 
-You can execute the fetch list stub running the `.bat` file [stub_get_list.bat](#run-get-list-stub)
+You can execute the fetch list stub running the `.bat` file [stub_get_list.bat](#run-get-list-stub-script)
 
 This script will get a list by `id` calling the `TodoLists.Get` stub.
 
@@ -92,6 +96,22 @@ To run the get list stub you need to execute the following command:
 
 ```
 pipenv run .\src\proto_client\stub_get_list.py id
+```
+
+If a list with that `id` does not exist, the stub will fail and show an error message.
+
+### Delete list stub
+
+You can execute the delete list stub running the `.bat` file [stub_delete_list.bat](#run-delete-list-stub-script)
+
+This script will delete a list by `id` calling the `TodoLists.Delete` stub.
+
+The script accept an optional parameter to define the desired list `id`, if no parameter is defined it will try to delete a list with `id=1`
+
+To run the delete list stub you need to execute the following command:
+
+```
+pipenv run .\src\proto_client\stub_delete_list.py id
 ```
 
 If a list with that `id` does not exist, the stub will fail and show an error message.
@@ -146,7 +166,7 @@ pipenv run pylint src
 
 In the folder `/scripts` you can find different `.bat` scripts with different goals
 
-## Run gRPC server
+## Run gRPC server script
 
 This script will run the gRPC server
 
@@ -154,7 +174,7 @@ This script will run the gRPC server
 ./scripts/run_grpc_server.bat
 ```
 
-## Run Create List stub
+## Run Create List stub script
 
 This script will execute the stub to create a new List `TodoLists.Create`
 
@@ -164,7 +184,7 @@ The script accept an optional parameter to define the List `name` to be created,
 ./scripts/stub_create_list.bat ListName
 ```
 
-## Run Get List stub
+## Run Get List stub script
 
 This script will get a List by `id` with the stub `TodoLists.Get`
 
@@ -172,6 +192,16 @@ The script accept an optional parameter to define the List `id` to get, if no pa
 
 ```
 ./scripts/stub_get_list.bat id
+```
+
+## Run Delete List stub script
+
+This script will delete a List by `id` with the stub `TodoLists.Delete`
+
+The script accept an optional parameter to define the List `id` to delete, if no parameter is defined it will delete a list with `id=1`
+
+```
+./scripts/stub_delete_list.bat id
 ```
 
 ## Run unittests script
