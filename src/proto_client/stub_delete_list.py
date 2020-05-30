@@ -1,20 +1,20 @@
 """
-This module is used to invoke the gRPC todolists.TodoLists.Get Stub
+This module is used to invoke the gRPC todolists.TodoLists.Delete Stub
 
 Examples:
-        This module can be executed as a script, this way it will execute the todolists.TodoLists.Get Stub,
-        it accept an optional positional argument to define the new List `id`. If no argument is defined
-        it will try to fetch a List with the id `1`
+        This module can be executed as a script, this way it will execute the todolists.TodoLists.Delete Stub,
+        it accept an optional positional argument to define the List `id` to delete. If no argument is defined
+        it will try to delete a List with the id `1`
 
-            $ python stub_get_list.py 10
+            $ python stub_delete_list.py 10
 
-        The module can also be imported to call the `get_list` function and invoke the .Get Stub.
+        The module can also be imported to call the `delete_list` function and invoke the .Delete Stub.
 
-            $ from proto_client.stub_get_list import get_list
-            $ get_list(10, grpc_channel)
+            $ from proto_client.stub_delete_list import delete_list
+            $ delete_list(10, grpc_channel)
 
 Attributes:
-    stub_get_list.get_list (function): Function use to invoke the gRPC to get a TodoList by id
+    stub_delete_list.delete_list (function): Function use to invoke the gRPC to delete a TodoList by id
 """
 import os
 import sys
@@ -30,24 +30,24 @@ import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc  # pylint: disable=wron
 from config.config import GRPC_SERVER_PORT  # pylint: disable=wrong-import-position
 
 
-def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
+def delete_list(list_id: id, channel: Channel) -> todolists_pb2.Empty:
     """
-    Invoke the TodoLists.Get gRPC to get a List by `id`
+    Invoke the TodoLists.Delete gRPC to delete a List by `id`
 
-    :param list_id: `id` of List to fetch
+    :param list_id: `id` of List to delete
     :param channel: gRPC channel used to invoke the Stub
 
-    :return: TodoList fetched by the stub
+    :return: Empty
 
     :raise _InactiveRpcError:
         If the gRPC server is UNAVAILABLE
         If a list with `list_id` do not exist in the DB
     """
-    print('Calling TodoLists.Get with List id "{}"'.format(list_id))
+    print('Calling TodoLists.Delete with List id "{}"'.format(list_id))
     try:
         stub = todolists_pb2_grpc.TodoListsStub(channel)
-        response = stub.Get(todolists_pb2.GetListRequest(id=list_id))
-        print('TodoList fetched with id "{}" and name "{}"'.format(response.id, response.name))
+        response = stub.Delete(todolists_pb2.DeleteListRequest(id=list_id))
+        print('TodoList with id "{}" deleted'.format(list_id))
         return response
     except _InactiveRpcError as ex:
         exception_code = ex.args[0].code  # pylint: disable=no-member
@@ -55,7 +55,7 @@ def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
         if exception_code == StatusCode.UNAVAILABLE:
             print('Seems that the gRPC Server is Unavailable. - {}'.format(exception_details))
         else:
-            print('Error fetching TodoList - {}'.format(exception_details))
+            print('Error deleting TodoList - {}'.format(exception_details))
         raise ex
 
 
@@ -66,4 +66,4 @@ if __name__ == '__main__':
     except IndexError:
         LIST_ID = 1
     with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
-        get_list(int(LIST_ID), _channel)
+        delete_list(int(LIST_ID), _channel)

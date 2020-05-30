@@ -10,11 +10,11 @@ Examples:
 
         The module can also be imported to call the `create_list` function and invoke the .Create Stub.
 
-            $ from proto_client.create_list_stub import create_list
+            $ from proto_client.stub_create_list import create_list
             $ create_list('new_list_name', grpc_channel)
 
 Attributes:
-    create_list_stub.create_list (function): Function use to invoke the gRPC to create a new TodoList
+    stub_create_list.create_list (function): Function use to invoke the gRPC to create a new TodoList
 """
 import os
 import sys

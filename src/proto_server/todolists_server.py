@@ -100,7 +100,30 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
             return todolists_pb2.TodoList(id=todo_list.id, name=todo_list.name)
         except NoResultFound:
             context.abort_with_status(rpc_status.to_status(self.create_grpc_error_status(
-                'List id "{}" not found.'.format(request.id),
+                'List with id "{}" not found.'.format(request.id),
+                code_pb2.NOT_FOUND
+            )))
+
+    def Delete(self, request: todolists_pb2.DeleteListRequest, context: _Context) -> todolists_pb2.Empty:
+        """
+        Delete a TodoList gRPC method.
+        The request will contain a todolist.DeleteListRequest
+
+        In the field request.id will be the id of the list to delete.
+
+        If a list with that `id` do not exist the gRPC will finish with an error code for NOT_FOUND
+
+        :param request: Request send by the client
+        :param context: grpc _Context
+        :return: Empty
+        """
+        try:
+            print('Delete TodoList with id "{}"'.format(request.id))
+            TodoListDBHandler.delete_todo_list(list_id=request.id)
+            return todolists_pb2.Empty()
+        except NoResultFound:
+            context.abort_with_status(rpc_status.to_status(self.create_grpc_error_status(
+                'List with id "{}" not found.'.format(request.id),
                 code_pb2.NOT_FOUND
             )))
 

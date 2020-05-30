@@ -69,3 +69,22 @@ class TodoListDBHandler(Database):
             return todo_list
         finally:
             cls.session_maker.remove()
+
+    @classmethod
+    def delete_todo_list(cls, list_id: int) -> None:
+        """
+        Delete a TodoList from the DB
+
+        :param list_id: ID of list to delete
+        :return:
+        :raise NoResultFound: If list with that ID does not exist
+        """
+        try:
+            session = cls.session_maker()
+            todo_list = session.query(TodoList).filter(TodoList.id==list_id).delete()
+            if not todo_list:
+                print('TodoList with id "{}" does not exist'.format(list_id))
+                raise NoResultFound()
+            session.commit()
+        finally:
+            cls.session_maker.remove()

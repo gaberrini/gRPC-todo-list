@@ -24,6 +24,11 @@ class TodoListsStub(object):
                 request_serializer=proto_dot_v1_dot_todolists__pb2.GetListRequest.SerializeToString,
                 response_deserializer=proto_dot_v1_dot_todolists__pb2.TodoList.FromString,
                 )
+        self.Delete = channel.unary_unary(
+                '/todolists.TodoLists/Delete',
+                request_serializer=proto_dot_v1_dot_todolists__pb2.DeleteListRequest.SerializeToString,
+                response_deserializer=proto_dot_v1_dot_todolists__pb2.Empty.FromString,
+                )
 
 
 class TodoListsServicer(object):
@@ -44,6 +49,13 @@ class TodoListsServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Delete(self, request, context):
+        """Delete a list
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TodoListsServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -56,6 +68,11 @@ def add_TodoListsServicer_to_server(servicer, server):
                     servicer.Get,
                     request_deserializer=proto_dot_v1_dot_todolists__pb2.GetListRequest.FromString,
                     response_serializer=proto_dot_v1_dot_todolists__pb2.TodoList.SerializeToString,
+            ),
+            'Delete': grpc.unary_unary_rpc_method_handler(
+                    servicer.Delete,
+                    request_deserializer=proto_dot_v1_dot_todolists__pb2.DeleteListRequest.FromString,
+                    response_serializer=proto_dot_v1_dot_todolists__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -97,5 +114,21 @@ class TodoLists(object):
         return grpc.experimental.unary_unary(request, target, '/todolists.TodoLists/Get',
             proto_dot_v1_dot_todolists__pb2.GetListRequest.SerializeToString,
             proto_dot_v1_dot_todolists__pb2.TodoList.FromString,
+            options, channel_credentials,
+            call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Delete(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/todolists.TodoLists/Delete',
+            proto_dot_v1_dot_todolists__pb2.DeleteListRequest.SerializeToString,
+            proto_dot_v1_dot_todolists__pb2.Empty.FromString,
             options, channel_credentials,
             call_credentials, compression, wait_for_ready, timeout, metadata)

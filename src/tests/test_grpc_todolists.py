@@ -10,6 +10,7 @@ from grpc import StatusCode
 
 from proto_client.stub_create_list import create_list
 from proto_client.stub_get_list import get_list
+from proto_client.stub_delete_list import delete_list
 from database.todo_lists_db_handler import TodoListDBHandler
 from tests.base_test_class import BaseTestClass
 
@@ -110,7 +111,40 @@ class TestGrpcTodoLists(BaseTestClass):
 
         # Then
         self.assertEqual(ex.exception.args[0].code, StatusCode.NOT_FOUND)
-        self.assertIn('List id "{}" not found.'.format(invalid_id), ex.exception.args[0].details)
+        self.assertIn('List with id "{}" not found.'.format(invalid_id), ex.exception.args[0].details)
+
+    def test_delete_list(self):
+        """
+        Invoke the delete list stub
+
+        :return:
+        """
+        # Data
+        test_list_id = TodoListDBHandler.new_todo_list_entry('TestList')
+
+        # When
+        response = delete_list(test_list_id, self.grpc_insecure_channel)
+
+        # Then
+        db_entries = TodoListDBHandler.get_all()
+        self.assertEqual(len(db_entries), 0)
+
+    def test_delete_list_fail_not_found(self):
+        """
+        Invoke the delete list stub should fail when list does not exist
+
+        :return:
+        """
+        # Data
+        invalid_id = 666
+
+        # When
+        with self.assertRaises(_InactiveRpcError) as ex:
+            delete_list(invalid_id, self.grpc_insecure_channel)
+
+        # Then
+        self.assertEqual(ex.exception.args[0].code, StatusCode.NOT_FOUND)
+        self.assertIn('List with id "{}" not found.'.format(invalid_id), ex.exception.args[0].details)
 
 
 if __name__ == '__main__':

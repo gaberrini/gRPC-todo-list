@@ -10,6 +10,18 @@ service TodoLists {
     rpc Create (CreateListRequest) returns (CreateListReply);
     // Get a list
     rpc Get (GetListRequest) returns (TodoList);
+    // Delete a list
+    rpc Delete (DeleteListRequest) returns (Empty);
+}
+
+// Empty message
+message Empty {
+
+}
+
+// Request to delete a list
+message DeleteListRequest {
+    int32 id = 1;
 }
 
 // Request to get a list
