@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='todolists',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x18proto/v1/todolists.proto\x12\ttodolists\"\x07\n\x05\x45mpty\"\x1f\n\x11\x44\x65leteListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"\x1c\n\x0eGetListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"$\n\x08TodoList\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\"!\n\x11\x43reateListRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"+\n\x0f\x43reateListReply\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t2\xc0\x01\n\tTodoLists\x12\x42\n\x06\x43reate\x12\x1c.todolists.CreateListRequest\x1a\x1a.todolists.CreateListReply\x12\x35\n\x03Get\x12\x19.todolists.GetListRequest\x1a\x13.todolists.TodoList\x12\x38\n\x06\x44\x65lete\x12\x1c.todolists.DeleteListRequest\x1a\x10.todolists.Emptyb\x06proto3'
+  serialized_pb=b'\n\x18proto/v1/todolists.proto\x12\ttodolists\"\x07\n\x05\x45mpty\"\x1f\n\x11\x44\x65leteListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"\x1c\n\x0eGetListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"$\n\x08TodoList\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\"!\n\x11\x43reateListRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"+\n\x0f\x43reateListReply\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\">\n\x14ListTodoListsRequest\x12\x11\n\tpage_size\x18\x01 \x01(\x05\x12\x13\n\x0bpage_number\x18\x02 \x01(\x05\"W\n\x12ListTodoListsReply\x12\'\n\ntodo_lists\x18\x01 \x03(\x0b\x32\x13.todolists.TodoList\x12\x18\n\x10next_page_number\x18\x02 \x01(\x05\x32\x88\x02\n\tTodoLists\x12\x42\n\x06\x43reate\x12\x1c.todolists.CreateListRequest\x1a\x1a.todolists.CreateListReply\x12\x35\n\x03Get\x12\x19.todolists.GetListRequest\x1a\x13.todolists.TodoList\x12\x38\n\x06\x44\x65lete\x12\x1c.todolists.DeleteListRequest\x1a\x10.todolists.Empty\x12\x46\n\x04List\x12\x1f.todolists.ListTodoListsRequest\x1a\x1d.todolists.ListTodoListsReplyb\x06proto3'
 )
 
 
@@ -216,12 +216,91 @@ _CREATELISTREPLY = _descriptor.Descriptor(
   serialized_end=227,
 )
 
+
+_LISTTODOLISTSREQUEST = _descriptor.Descriptor(
+  name='ListTodoListsRequest',
+  full_name='todolists.ListTodoListsRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='page_size', full_name='todolists.ListTodoListsRequest.page_size', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='page_number', full_name='todolists.ListTodoListsRequest.page_number', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=229,
+  serialized_end=291,
+)
+
+
+_LISTTODOLISTSREPLY = _descriptor.Descriptor(
+  name='ListTodoListsReply',
+  full_name='todolists.ListTodoListsReply',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='todo_lists', full_name='todolists.ListTodoListsReply.todo_lists', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='next_page_number', full_name='todolists.ListTodoListsReply.next_page_number', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=293,
+  serialized_end=380,
+)
+
+_LISTTODOLISTSREPLY.fields_by_name['todo_lists'].message_type = _TODOLIST
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['DeleteListRequest'] = _DELETELISTREQUEST
 DESCRIPTOR.message_types_by_name['GetListRequest'] = _GETLISTREQUEST
 DESCRIPTOR.message_types_by_name['TodoList'] = _TODOLIST
 DESCRIPTOR.message_types_by_name['CreateListRequest'] = _CREATELISTREQUEST
 DESCRIPTOR.message_types_by_name['CreateListReply'] = _CREATELISTREPLY
+DESCRIPTOR.message_types_by_name['ListTodoListsRequest'] = _LISTTODOLISTSREQUEST
+DESCRIPTOR.message_types_by_name['ListTodoListsReply'] = _LISTTODOLISTSREPLY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
@@ -266,6 +345,20 @@ CreateListReply = _reflection.GeneratedProtocolMessageType('CreateListReply', (_
   })
 _sym_db.RegisterMessage(CreateListReply)
 
+ListTodoListsRequest = _reflection.GeneratedProtocolMessageType('ListTodoListsRequest', (_message.Message,), {
+  'DESCRIPTOR' : _LISTTODOLISTSREQUEST,
+  '__module__' : 'proto.v1.todolists_pb2'
+  # @@protoc_insertion_point(class_scope:todolists.ListTodoListsRequest)
+  })
+_sym_db.RegisterMessage(ListTodoListsRequest)
+
+ListTodoListsReply = _reflection.GeneratedProtocolMessageType('ListTodoListsReply', (_message.Message,), {
+  'DESCRIPTOR' : _LISTTODOLISTSREPLY,
+  '__module__' : 'proto.v1.todolists_pb2'
+  # @@protoc_insertion_point(class_scope:todolists.ListTodoListsReply)
+  })
+_sym_db.RegisterMessage(ListTodoListsReply)
+
 
 
 _TODOLISTS = _descriptor.ServiceDescriptor(
@@ -274,8 +367,8 @@ _TODOLISTS = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=230,
-  serialized_end=422,
+  serialized_start=383,
+  serialized_end=647,
   methods=[
   _descriptor.MethodDescriptor(
     name='Create',
@@ -302,6 +395,15 @@ _TODOLISTS = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_DELETELISTREQUEST,
     output_type=_EMPTY,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='List',
+    full_name='todolists.TodoLists.List',
+    index=3,
+    containing_service=None,
+    input_type=_LISTTODOLISTSREQUEST,
+    output_type=_LISTTODOLISTSREPLY,
     serialized_options=None,
   ),
 ])

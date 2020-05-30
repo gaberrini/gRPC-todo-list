@@ -29,6 +29,11 @@ class TodoListsStub(object):
                 request_serializer=proto_dot_v1_dot_todolists__pb2.DeleteListRequest.SerializeToString,
                 response_deserializer=proto_dot_v1_dot_todolists__pb2.Empty.FromString,
                 )
+        self.List = channel.unary_unary(
+                '/todolists.TodoLists/List',
+                request_serializer=proto_dot_v1_dot_todolists__pb2.ListTodoListsRequest.SerializeToString,
+                response_deserializer=proto_dot_v1_dot_todolists__pb2.ListTodoListsReply.FromString,
+                )
 
 
 class TodoListsServicer(object):
@@ -56,6 +61,13 @@ class TodoListsServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def List(self, request, context):
+        """List TodoLists
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TodoListsServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -73,6 +85,11 @@ def add_TodoListsServicer_to_server(servicer, server):
                     servicer.Delete,
                     request_deserializer=proto_dot_v1_dot_todolists__pb2.DeleteListRequest.FromString,
                     response_serializer=proto_dot_v1_dot_todolists__pb2.Empty.SerializeToString,
+            ),
+            'List': grpc.unary_unary_rpc_method_handler(
+                    servicer.List,
+                    request_deserializer=proto_dot_v1_dot_todolists__pb2.ListTodoListsRequest.FromString,
+                    response_serializer=proto_dot_v1_dot_todolists__pb2.ListTodoListsReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -130,5 +147,21 @@ class TodoLists(object):
         return grpc.experimental.unary_unary(request, target, '/todolists.TodoLists/Delete',
             proto_dot_v1_dot_todolists__pb2.DeleteListRequest.SerializeToString,
             proto_dot_v1_dot_todolists__pb2.Empty.FromString,
+            options, channel_credentials,
+            call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def List(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/todolists.TodoLists/List',
+            proto_dot_v1_dot_todolists__pb2.ListTodoListsRequest.SerializeToString,
+            proto_dot_v1_dot_todolists__pb2.ListTodoListsReply.FromString,
             options, channel_credentials,
             call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -12,6 +12,8 @@ service TodoLists {
     rpc Get (GetListRequest) returns (TodoList);
     // Delete a list
     rpc Delete (DeleteListRequest) returns (Empty);
+    // List TodoLists
+    rpc List (ListTodoListsRequest) returns (ListTodoListsReply);
 }
 
 // Empty message
