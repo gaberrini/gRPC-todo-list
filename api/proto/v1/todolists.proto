@@ -40,9 +40,20 @@ message CreateListRequest {
     string name = 1;
 }
 
-
 // Reply of creating a list
 message CreateListReply {
     int32 id = 1;
     string name = 2;
+}
+
+// Request to retrieve a list of TodoLists
+message ListTodoListsRequest{
+    int32 page_size = 1;
+    int32 page_number = 2;
+}
+
+// Reply of list TodoLists
+message ListTodoListsReply {
+    repeated TodoList todo_lists = 1;
+    int32 next_page_number = 2;
 }
