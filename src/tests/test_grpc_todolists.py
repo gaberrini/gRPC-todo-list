@@ -4,9 +4,11 @@ Module with the tests for the gRPC Service todolists.TodoLists
 Classes:
     TestGrpcTodoLists(BaseTestClass)
 """
+import io
 import unittest
 from grpc._channel import _InactiveRpcError
 from grpc import StatusCode
+from unittest.mock import patch, MagicMock
 
 from proto_client.stub_create_list import create_list
 from proto_client.stub_get_list import get_list
@@ -39,10 +41,12 @@ class TestGrpcTodoLists(BaseTestClass):
         self.assertEqual(response.name, new_list_name)
         self.assertEqual(response.name, db_entries[0].name)
 
-    def test_create_list_fail_unique_name(self):
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_create_list_fail_unique_name(self, print_mock: MagicMock):
         """
         Invoke create list stub should fail when list with that name already exist in the database
 
+        :param print_mock: Mock to inspect print calls
         :return:
         """
         # Data
@@ -50,19 +54,19 @@ class TestGrpcTodoLists(BaseTestClass):
         TodoListDBHandler.new_todo_list_entry(test_list_name)
 
         # When
-        with self.assertRaises(_InactiveRpcError) as ex:
-            create_list(test_list_name, self.grpc_insecure_channel)
+        create_list(test_list_name, self.grpc_insecure_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
         self.assertEqual(len(db_entries), 1, 'Error DB should have only 1 entry')
-        self.assertEqual(ex.exception.args[0].code, StatusCode.INVALID_ARGUMENT)
-        self.assertIn('List name must be unique', ex.exception.args[0].details)
+        self.assertIn('List name must be unique', print_mock.getvalue())
 
-    def test_create_list_fail_server_unavailable(self):
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_create_list_fail_server_unavailable(self, print_mock: MagicMock):
         """
         Invoke stub should fail when the server is UNAVAILABLE.
 
+        :param print_mock: Mock to inspect print calls
         :return:
         """
         # Data
@@ -70,14 +74,12 @@ class TestGrpcTodoLists(BaseTestClass):
         self.grpc_server.stop(None)
 
         # When
-        with self.assertRaises(_InactiveRpcError) as ex:
-            create_list(test_list_name, self.grpc_insecure_channel)
+        create_list(test_list_name, self.grpc_insecure_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
         self.assertEqual(len(db_entries), 0, 'Error DB should have 0 entries')
-        self.assertEqual(ex.exception.args[0].code, StatusCode.UNAVAILABLE)
-        self.assertIn('failed to connect to all addresses', ex.exception.args[0].details)
+        self.assertIn('failed to connect to all addresses', print_mock.getvalue())
 
     def test_get_list(self):
         """
