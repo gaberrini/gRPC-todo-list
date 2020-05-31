@@ -54,9 +54,11 @@ def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
         exception_details = ex.args[0].details  # pylint: disable=no-member
         if exception_code == StatusCode.UNAVAILABLE:
             print('Seems that the gRPC Server is Unavailable. - {}'.format(exception_details))
+        elif exception_code == StatusCode.NOT_FOUND:
+            print('{}'.format(exception_details))
         else:
             print('Error fetching TodoList - {}'.format(exception_details))
-        raise ex
+            raise ex
 
 
 if __name__ == '__main__':

@@ -55,7 +55,7 @@ def create_list(name: str, channel: Channel) -> todolists_pb2.CreateListReply:
         if exception_code == StatusCode.UNAVAILABLE:
             print('Seems that the gRPC Server is Unavailable. - {}'.format(exception_details))
         elif exception_code == StatusCode.INVALID_ARGUMENT:
-            print('Error creating TodoList - {}'.format(exception_details))
+            print('{}'.format(exception_details))
         else:
             print('Error creating TodoList - {}'.format(exception_details))
             raise ex

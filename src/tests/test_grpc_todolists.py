@@ -98,22 +98,22 @@ class TestGrpcTodoLists(BaseTestClass):
         self.assertEqual(response.id, db_entries[0].id)
         self.assertEqual(response.name, db_entries[0].name)
 
-    def test_get_list_fail_not_found(self):
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_get_list_fail_not_found(self, print_mock: MagicMock):
         """
         Invoke get list stub should fail when list is not found
 
+        :param print_mock: Mock to inspect print calls
         :return:
         """
         # Data
         invalid_id = 666
 
         # When
-        with self.assertRaises(_InactiveRpcError) as ex:
-            get_list(invalid_id, self.grpc_insecure_channel)
+        get_list(invalid_id, self.grpc_insecure_channel)
 
         # Then
-        self.assertEqual(ex.exception.args[0].code, StatusCode.NOT_FOUND)
-        self.assertIn('List with id "{}" not found.'.format(invalid_id), ex.exception.args[0].details)
+        self.assertIn('List with id "{}" not found.'.format(invalid_id), print_mock.getvalue())
 
     def test_delete_list(self):
         """
@@ -131,22 +131,22 @@ class TestGrpcTodoLists(BaseTestClass):
         db_entries = TodoListDBHandler.get_lists_paginated()
         self.assertEqual(len(db_entries), 0)
 
-    def test_delete_list_fail_not_found(self):
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_delete_list_fail_not_found(self, print_mock: MagicMock):
         """
         Invoke the delete list stub should fail when list does not exist
 
+        :param print_mock: Mock to inspect print calls
         :return:
         """
         # Data
         invalid_id = 666
 
         # When
-        with self.assertRaises(_InactiveRpcError) as ex:
-            delete_list(invalid_id, self.grpc_insecure_channel)
+        delete_list(invalid_id, self.grpc_insecure_channel)
 
         # Then
-        self.assertEqual(ex.exception.args[0].code, StatusCode.NOT_FOUND)
-        self.assertIn('List with id "{}" not found.'.format(invalid_id), ex.exception.args[0].details)
+        self.assertIn('List with id "{}" not found.'.format(invalid_id), print_mock.getvalue())
 
 
 if __name__ == '__main__':
