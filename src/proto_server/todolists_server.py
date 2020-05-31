@@ -150,7 +150,15 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
         :param context: gRPC _Context
         :return:
         """
-        raise NotImplementedError()
+        print('List TodoLists. `page_size={}`, `page_number={}`'.format(request.page_size, request.page_number))
+        page_number = request.page_number if request.page_number > 0 else 1
+        page_size = request.page_size if request.page_size < MAX_PAGE_SIZE else MAX_PAGE_SIZE
+
+        lists = TodoListDBHandler.get_lists_paginated(page_number=request.page_number, page_size=request.page_size)
+        count = TodoListDBHandler.get_lists_db_count()
+        next_page_number = str(request.page_number + 1) if count > (page_number * page_size) else ''
+
+        return todolists_pb2.ListTodoListsReply(todo_lists=lists, next_page_number=next_page_number, count=count)
 
 
 def create_server(server_port: int) -> [_Server, int]:

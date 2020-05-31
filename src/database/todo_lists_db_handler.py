@@ -97,10 +97,21 @@ class TodoListDBHandler(Database):
         """
         try:
             session = cls.session_maker()
-            todo_list = session.query(TodoList).filter(TodoList.id==list_id).delete()
+            todo_list = session.query(TodoList).filter(TodoList.id == list_id).delete()
             if not todo_list:
                 print('TodoList with id "{}" does not exist'.format(list_id))
                 raise NoResultFound()
             session.commit()
+        finally:
+            cls.session_maker.remove()
+
+    @classmethod
+    def get_lists_db_count(cls) -> int:
+        """
+        :return: count of TodoLists in the DB
+        """
+        try:
+            session = cls.session_maker()
+            return session.query(TodoList).count()
         finally:
             cls.session_maker.remove()
