@@ -22,7 +22,6 @@ import grpc
 from grpc._channel import _InactiveRpcError, Channel
 from grpc import StatusCode
 
-# Not good practice, add src to python path dynamically
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import proto.v1.todolists_pb2 as todolists_pb2  # pylint: disable=wrong-import-position
