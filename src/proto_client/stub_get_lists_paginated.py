@@ -63,10 +63,10 @@ def get_lists_paginated(page_number: int, page_size: int, channel: Channel) -> t
             print('Seems that the gRPC Server is Unavailable. - {}'.format(exception_details))
         else:
             print('Error getting TodoLists paginated - {}'.format(exception_details))
-        raise ex
+            raise ex
 
 
-if __name__ == '__main__':
+def main():
     # Expected two positional arguments, first `page_number`, second `page_size`
     try:
         _page_number = sys.argv[1]
@@ -76,3 +76,7 @@ if __name__ == '__main__':
         _page_size = int(input('Please insert the desired page_size: ').strip())
     with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
         get_lists_paginated(page_number=int(_page_number), page_size=int(_page_size), channel=_channel)
+
+
+if __name__ == '__main__':
+    main()

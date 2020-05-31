@@ -186,6 +186,24 @@ class TestGrpcTodoLists(BaseTestClass):
         self.assertEqual(response.todo_lists[0].id, db_entries[4].id)
         self.assertEqual(response.todo_lists[0].id, db_entries[4].id)
 
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_get_lists_paginated_fail_server_unavailable(self, print_mock: MagicMock):
+        """
+        Invoke stub should fail when the server is UNAVAILABLE.
+
+        :param print_mock: Mock to inspect print calls
+        :return:
+        """
+        # Data
+        test_list_name = 'TestList'
+        self.grpc_server.stop(None)
+
+        # When
+        get_lists_paginated(1, 1, self.grpc_insecure_channel)
+
+        # Then
+        self.assertIn('failed to connect to all addresses', print_mock.getvalue())
+
 
 if __name__ == '__main__':
     unittest.main()
