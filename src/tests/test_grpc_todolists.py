@@ -6,13 +6,12 @@ Classes:
 """
 import io
 import unittest
-from grpc._channel import _InactiveRpcError
-from grpc import StatusCode
 from unittest.mock import patch, MagicMock
 
 from proto_client.stub_create_list import create_list
 from proto_client.stub_get_list import get_list
 from proto_client.stub_delete_list import delete_list
+from proto_client.stub_get_lists_paginated import get_lists_paginated
 from database.todo_lists_db_handler import TodoListDBHandler
 from tests.base_test_class import BaseTestClass
 
@@ -125,7 +124,7 @@ class TestGrpcTodoLists(BaseTestClass):
         test_list_id = TodoListDBHandler.new_todo_list_entry('TestList')
 
         # When
-        response = delete_list(test_list_id, self.grpc_insecure_channel)
+        delete_list(test_list_id, self.grpc_insecure_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
@@ -147,6 +146,45 @@ class TestGrpcTodoLists(BaseTestClass):
 
         # Then
         self.assertIn('List with id "{}" not found.'.format(invalid_id), print_mock.getvalue())
+
+    def test_get_lists_paginated(self):
+        """
+        Invoke the get lists paginated stub
+
+        :return:
+        """
+        # Data
+        [TodoListDBHandler.new_todo_list_entry(str(i)) for i in range(5)]
+
+        # When
+        response = get_lists_paginated(2, 2, self.grpc_insecure_channel)
+
+        # Then
+        db_entries = TodoListDBHandler.get_lists_paginated()
+        self.assertEqual(response.next_page_number, '3')
+        self.assertEqual(response.count, 5)
+        self.assertEqual(len(response.todo_lists), 2)
+        self.assertEqual(response.todo_lists[0].id, db_entries[2].id)
+        self.assertEqual(response.todo_lists[1].id, db_entries[3].id)
+
+    def test_get_lists_paginated_2(self):
+        """
+        Invoke the get lists paginated stub
+
+        :return:
+        """
+        # Data
+        [TodoListDBHandler.new_todo_list_entry(str(i)) for i in range(5)]
+
+        # When
+        response = get_lists_paginated(3, 2, self.grpc_insecure_channel)
+
+        # Then
+        db_entries = TodoListDBHandler.get_lists_paginated()
+        self.assertEqual(response.next_page_number, '')
+        self.assertEqual(len(response.todo_lists), 1)
+        self.assertEqual(response.todo_lists[0].id, db_entries[4].id)
+        self.assertEqual(response.todo_lists[0].id, db_entries[4].id)
 
 
 if __name__ == '__main__':
