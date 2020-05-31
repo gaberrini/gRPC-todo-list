@@ -195,7 +195,6 @@ class TestGrpcTodoLists(BaseTestClass):
         :return:
         """
         # Data
-        test_list_name = 'TestList'
         self.grpc_server.stop(None)
 
         # When

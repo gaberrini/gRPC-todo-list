@@ -28,6 +28,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import proto.v1.todolists_pb2 as todolists_pb2  # pylint: disable=wrong-import-position
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc  # pylint: disable=wrong-import-position
 from config.config import GRPC_SERVER_PORT  # pylint: disable=wrong-import-position
+from proto_client.helpers import get_input
 
 
 def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
@@ -61,11 +62,19 @@ def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
             raise ex
 
 
-if __name__ == '__main__':
+def main():
+    """
+    Main when executed as script
+    :return:
+    """
     # List `id` can be specified by positional arguments, if it will be requested as input
     try:
         _list_id = sys.argv[1]
     except IndexError:
-        _list_id = int(input('Please insert the TodoList `id` to get: ').strip())
+        _list_id = int(get_input('Please insert the TodoList `id` to get: ').strip())
     with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
         get_list(int(_list_id), _channel)
+
+
+if __name__ == '__main__':
+    main()

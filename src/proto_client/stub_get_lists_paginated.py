@@ -29,6 +29,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import proto.v1.todolists_pb2 as todolists_pb2  # pylint: disable=wrong-import-position
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc  # pylint: disable=wrong-import-position
 from config.config import GRPC_SERVER_PORT  # pylint: disable=wrong-import-position
+from proto_client.helpers import get_input
 
 
 def get_lists_paginated(page_number: int, page_size: int, channel: Channel) -> todolists_pb2.ListTodoListsReply:
@@ -52,7 +53,7 @@ def get_lists_paginated(page_number: int, page_size: int, channel: Channel) -> t
     try:
         stub = todolists_pb2_grpc.TodoListsStub(channel)
         response = stub.List(todolists_pb2.ListTodoListsRequest(page_size=page_size, page_number=page_number))
-        print('Response: `next_page_number:{}` - `count={}`\n`todo_lists:{}`'.format(response.next_page_number,
+        print('Response: `next_page_number={}` - `count={}`\n`todo_lists={}`'.format(response.next_page_number,
                                                                                      response.count,
                                                                                      response.todo_lists))
         return response
@@ -67,13 +68,17 @@ def get_lists_paginated(page_number: int, page_size: int, channel: Channel) -> t
 
 
 def main():
+    """
+    Main when executed as script
+    :return:
+    """
     # Expected two positional arguments, first `page_number`, second `page_size`
     try:
         _page_number = sys.argv[1]
         _page_size = sys.argv[2]
     except IndexError:
-        _page_number = int(input('Please insert the desired page_number: ').strip())
-        _page_size = int(input('Please insert the desired page_size: ').strip())
+        _page_number = int(get_input('Please insert the desired page_number: ').strip())
+        _page_size = int(get_input('Please insert the desired page_size: ').strip())
     with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
         get_lists_paginated(page_number=int(_page_number), page_size=int(_page_size), channel=_channel)
 
