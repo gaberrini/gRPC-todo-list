@@ -14,6 +14,7 @@ This started the [gRPC Quick Start Tutorial] for Python. If you are new with thi
         * [New list stub](#new-list-stub)
         * [Fetch list stub](#fetch-list-stub)
         * [Delete list stub](#delete-list-stub)
+        * [Get TodoLists paginated stub](#get-todolists-paginated-stub)
 * [Running tests, tests coverage and linter](#running-tests-tests-coverage-and-linter)
     * [Run unittests](#run-unittests)
     * [Run unittests with coverage](#run-unittests-with-coverage)
@@ -54,8 +55,9 @@ pipenv install --dev
 
 ## Environment variables
 
-* **GRPC_SERVER_PORT**: Used by the gRPC server to listen to this port, and stubs to connect to the server.
+* **GRPC_SERVER_PORT**: Used by the gRPC server to listen to this port, and stubs to connect to the server. Default: `50051`
 * **ENVIRONMENT**: If you are running tests make sure to set this to **testing**, because **Database will be dropped and created again** while running tests.
+* **MAX_PAGE_SIZE**: Define the max number of items per page when listing resources. Default: `50`
 
 ## Server
 
@@ -75,7 +77,7 @@ You can execute the new list stub running the `.bat` file [stub_create_list.bat]
 
 This script will create a new list calling the `TodoLists.Create` stub. For the stub to work successfully the gRPC server must be running.
 
-The script expects a positional argument to define the desired list `name`, if no parameter is defined it will be requested as user input
+The script expects a positional argument to define the desired list `name`, if no parameter is defined it will be requested as user input.
 
 To run the create list stub you need to execute the following command:
 
@@ -91,7 +93,7 @@ You can execute the fetch list stub running the `.bat` file [stub_get_list.bat](
 
 This script will get a list by `id` calling the `TodoLists.Get` stub.
 
-The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input
+The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input.
 
 To run the get list stub you need to execute the following command:
 
@@ -107,7 +109,7 @@ You can execute the delete list stub running the `.bat` file [stub_delete_list.b
 
 This script will delete a list by `id` calling the `TodoLists.Delete` stub.
 
-The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input
+The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input.
 
 To run the delete list stub you need to execute the following command:
 
@@ -116,6 +118,26 @@ pipenv run .\src\proto_client\stub_delete_list.py id
 ```
 
 If a list with that `id` does not exist, the stub will fail and show an error message.
+
+### Get TodoLists paginated stub
+
+You can execute the get TodoLists paginated stub running the `.bat` file [stub_get_lists_paginated.bat](#todo)
+
+This script will fetch the `TodoLists` paginated calling the `TodoLists.List` stub.
+
+The script expects two positional arguments to define the `page_number` and `page_size`, if no parameter is defined it will be requested as user input.
+
+To run the stub you need to execute the following command:
+
+```
+pipenv run .\src\proto_client\stub_get_lists_paginated.py 1 10
+```
+
+If `page_size` is 0, default value will be 10.
+
+The maximum value allowed is `MAX_PAGE_SIZE`, if `page_size` is a bigger value it will be set the max value.
+
+If `page_number` is lower than 1, it will be set to the first page, 1.
 
 # Running tests, tests coverage and linter
 
