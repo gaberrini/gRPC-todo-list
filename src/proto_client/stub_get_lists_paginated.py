@@ -29,7 +29,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import proto.v1.todolists_pb2 as todolists_pb2  # pylint: disable=wrong-import-position
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc  # pylint: disable=wrong-import-position
 from config.config import GRPC_SERVER_PORT  # pylint: disable=wrong-import-position
-from proto_client.helpers import get_input
+from proto_client.helpers import get_input  # pylint: disable=wrong-import-position
 
 
 def get_lists_paginated(page_number: int, page_size: int, channel: Channel) -> todolists_pb2.ListTodoListsReply:

@@ -1,3 +1,5 @@
+"""Helper functions shared by stubs"""
+
 def get_input(message: str) -> str:
     """
     Get user input, method made to be mocked in tests
