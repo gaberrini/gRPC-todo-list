@@ -6,7 +6,6 @@ Classes:
 """
 import unittest
 import grpc
-import database.config as config
 import database.database as db
 from proto_server.todolists_server import create_server
 from config.config import GRPC_SERVER_PORT
@@ -28,8 +27,7 @@ class BaseTestClass(unittest.TestCase):
         Create the test grpc_server, and the grpc_insecure_channel to be used to invoke the stubs.
         :return:
         """
-        # Set test database path and drop Database, it will be created again when gRPC is created
-        config.SQL_LITE_DATABASE_PATH = config.TEST_SQL_LITE_DATABASE_PATH
+        # Drop Database, and create it again
         db.Database.drop_all()
         db.Database.create_db_tables()
         self.grpc_server = create_server(GRPC_SERVER_PORT)

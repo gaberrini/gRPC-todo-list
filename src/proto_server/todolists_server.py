@@ -154,11 +154,12 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
         page_number = request.page_number if request.page_number > 0 else 1
         page_size = request.page_size if request.page_size < MAX_PAGE_SIZE else MAX_PAGE_SIZE
 
-        lists = TodoListDBHandler.get_lists_paginated(page_number=request.page_number, page_size=request.page_size)
+        db_lists = TodoListDBHandler.get_lists_paginated(page_number=request.page_number, page_size=request.page_size)
         count = TodoListDBHandler.get_lists_db_count()
         next_page_number = str(request.page_number + 1) if count > (page_number * page_size) else ''
 
-        return todolists_pb2.ListTodoListsReply(todo_lists=lists, next_page_number=next_page_number, count=count)
+        todo_lists = [todolists_pb2.TodoList(id=_list.id, name=_list.name) for _list in db_lists]
+        return todolists_pb2.ListTodoListsReply(next_page_number=next_page_number, count=count, todo_lists=todo_lists)
 
 
 def create_server(server_port: int) -> [_Server, int]:
