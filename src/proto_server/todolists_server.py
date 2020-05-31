@@ -135,7 +135,8 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
         Request fields:
             In the field `request.page_size` the client can define how many lists will be retrieved per page.
                 If `page_size` is 0, default value will be 10.
-                The maximum value allowed is MAX_PAGE_SIZE, if `page_size` is a bigger value it will be set the max value
+                The maximum value allowed is MAX_PAGE_SIZE,
+                 if `page_size` is a bigger value it will be set the max value
 
             If the field `request.page_number` the client define the desired page number.
                 If `page_number` is lower than 1, it will be set to the first page, 1.

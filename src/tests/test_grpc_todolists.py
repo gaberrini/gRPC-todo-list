@@ -154,7 +154,7 @@ class TestGrpcTodoLists(BaseTestClass):
         :return:
         """
         # Data
-        [TodoListDBHandler.new_todo_list_entry(str(i)) for i in range(5)]
+        [TodoListDBHandler.new_todo_list_entry(str(i)) for i in range(5)]  # pylint: disable=expression-not-assigned
 
         # When
         response = get_lists_paginated(2, 2, self.grpc_insecure_channel)
@@ -174,7 +174,7 @@ class TestGrpcTodoLists(BaseTestClass):
         :return:
         """
         # Data
-        [TodoListDBHandler.new_todo_list_entry(str(i)) for i in range(5)]
+        [TodoListDBHandler.new_todo_list_entry(str(i)) for i in range(5)]  # pylint: disable=expression-not-assigned
 
         # When
         response = get_lists_paginated(3, 2, self.grpc_insecure_channel)

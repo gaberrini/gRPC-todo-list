@@ -64,8 +64,8 @@ def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
 if __name__ == '__main__':
     # List `id` can be specified by positional arguments, if it will be requested as input
     try:
-        list_id = sys.argv[1]
+        _list_id = sys.argv[1]
     except IndexError:
-        list_id = int(input('Please insert the TodoList `id` to get: ').strip())
+        _list_id = int(input('Please insert the TodoList `id` to get: ').strip())
     with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
-        get_list(int(list_id), _channel)
+        get_list(int(_list_id), _channel)
