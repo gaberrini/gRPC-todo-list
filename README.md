@@ -55,6 +55,7 @@ pipenv install --dev
 ## Environment variables
 
 * **GRPC_SERVER_PORT**: Used by the gRPC server to listen to this port, and stubs to connect to the server.
+* **ENVIRONMENT**: If you are running tests make sure to set this to **testing**, because **Database will be dropped and created again** while running tests.
 
 ## Server
 
@@ -124,6 +125,8 @@ The project comes with `unittests` you can execute them with the script [run_uni
 
 If you prefer you can run them manually.
 
+If you are running tests make sure to set the environment variable **ENVIRONMENT** to **testing**, because **Database will be dropped and created again** while running tests. The script do this automatically.
+
 ```
 pipenv run python -m unittest discover -s ./src --verbose
 ```
@@ -133,6 +136,8 @@ pipenv run python -m unittest discover -s ./src --verbose
 You can run the `unittests` and see the `tests coverage`. You can do it running the script [run_unittests_with_coverage.bat](#run-unittests-with-coverage-script)
 
 If you prefer you can run them manually.
+
+If you are running tests make sure to set the environment variable **ENVIRONMENT** to **testing**, because **Database will be dropped and created again** while running tests. The script do this automatically.
 
 ```
 pipenv run python -m coverage run -m unittest discover -s ./src --verbose
