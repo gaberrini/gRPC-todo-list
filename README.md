@@ -74,7 +74,7 @@ You can execute the new list stub running the `.bat` file [stub_create_list.bat]
 
 This script will create a new list calling the `TodoLists.Create` stub. For the stub to work successfully the gRPC server must be running.
 
-The script accept an optional parameter to define the desired list `name`, if no parameter is defined it will try to create a list with `name=TestList`
+The script expects a positional argument to define the desired list `name`, if no parameter is defined it will be requested as user input
 
 To run the create list stub you need to execute the following command:
 
@@ -90,7 +90,7 @@ You can execute the fetch list stub running the `.bat` file [stub_get_list.bat](
 
 This script will get a list by `id` calling the `TodoLists.Get` stub.
 
-The script accept an optional parameter to define the desired list `id`, if no parameter is defined it will try to get a list with `id=1`
+The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input
 
 To run the get list stub you need to execute the following command:
 
@@ -106,7 +106,7 @@ You can execute the delete list stub running the `.bat` file [stub_delete_list.b
 
 This script will delete a list by `id` calling the `TodoLists.Delete` stub.
 
-The script accept an optional parameter to define the desired list `id`, if no parameter is defined it will try to delete a list with `id=1`
+The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input
 
 To run the delete list stub you need to execute the following command:
 
@@ -178,7 +178,7 @@ This script will run the gRPC server
 
 This script will execute the stub to create a new List `TodoLists.Create`
 
-The script accept an optional parameter to define the List `name` to be created, if no parameter is defined it will create a list with the `name=TestList`
+The script expects a positional argument to define the desired list `name`, if no parameter is defined it will be requested as user input
 
 ```
 ./scripts/stub_create_list.bat ListName
@@ -188,7 +188,7 @@ The script accept an optional parameter to define the List `name` to be created,
 
 This script will get a List by `id` with the stub `TodoLists.Get`
 
-The script accept an optional parameter to define the List `id` to get, if no parameter is defined it will get a list with `id=1`
+The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input
 
 ```
 ./scripts/stub_get_list.bat id
@@ -198,7 +198,7 @@ The script accept an optional parameter to define the List `id` to get, if no pa
 
 This script will delete a List by `id` with the stub `TodoLists.Delete`
 
-The script accept an optional parameter to define the List `id` to delete, if no parameter is defined it will delete a list with `id=1`
+The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input
 
 ```
 ./scripts/stub_delete_list.bat id

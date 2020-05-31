@@ -3,8 +3,8 @@ This module is used to invoke the gRPC todolists.TodoLists.Delete Stub
 
 Examples:
         This module can be executed as a script, this way it will execute the todolists.TodoLists.Delete Stub,
-        it accept an optional positional argument to define the List `id` to delete. If no argument is defined
-        it will try to delete a List with the id `1`
+        it expects a positional argument to define the List `id` to delete.
+        If no argument is defined it will be requested by user input
 
             $ python stub_delete_list.py 10
 
@@ -60,10 +60,10 @@ def delete_list(list_id: id, channel: Channel) -> todolists_pb2.Empty:
 
 
 if __name__ == '__main__':
-    # List `id` can be specified by positional arguments, if not default `id=1` is used
+    # List `id` can be specified by positional arguments, if it will be requested as input
     try:
-        LIST_ID = sys.argv[1]
+        list_id = sys.argv[1]
     except IndexError:
-        LIST_ID = 1
+        list_id = int(input('Please insert the TodoList `id` to delete: ').strip())
     with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
-        delete_list(int(LIST_ID), _channel)
+        delete_list(int(list_id), _channel)

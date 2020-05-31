@@ -3,8 +3,8 @@ This module is used to invoke the gRPC todolists.TodoLists.Get Stub
 
 Examples:
         This module can be executed as a script, this way it will execute the todolists.TodoLists.Get Stub,
-        it accept an optional positional argument to define the new List `id`. If no argument is defined
-        it will try to fetch a List with the id `1`
+        it expects a positional argument to define the List `id` to get.
+        If no argument is defined it will be requested by user input
 
             $ python stub_get_list.py 10
 
@@ -60,10 +60,10 @@ def get_list(list_id: id, channel: Channel) -> todolists_pb2.TodoList:
 
 
 if __name__ == '__main__':
-    # List `id` can be specified by positional arguments, if not default `id=1` is used
+    # List `id` can be specified by positional arguments, if it will be requested as input
     try:
-        LIST_ID = sys.argv[1]
+        list_id = sys.argv[1]
     except IndexError:
-        LIST_ID = 1
+        list_id = int(input('Please insert the TodoList `id` to get: ').strip())
     with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
-        get_list(int(LIST_ID), _channel)
+        get_list(int(list_id), _channel)

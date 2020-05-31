@@ -3,8 +3,8 @@ This module is used to invoke the gRPC todolists.TodoLists.Create Stub
 
 Examples:
         This module can be executed as a script, this way it will execute the todolists.TodoLists.Create Stub,
-        it accept an optional positional argument to define the new List name. If no argument is defined
-        it will try to create a List with the name `TestList`
+        it expect a positional argument to define the new List `name`.
+        If no argument is defined it will be requested by user input
 
             $ python stub_create_list.py NewListName
 
@@ -54,16 +54,18 @@ def create_list(name: str, channel: Channel) -> todolists_pb2.CreateListReply:
         exception_details = ex.args[0].details  # pylint: disable=no-member
         if exception_code == StatusCode.UNAVAILABLE:
             print('Seems that the gRPC Server is Unavailable. - {}'.format(exception_details))
+        elif exception_code == StatusCode.INVALID_ARGUMENT:
+            print('Error creating TodoList - {}'.format(exception_details))
         else:
             print('Error creating TodoList - {}'.format(exception_details))
-        raise ex
+            raise ex
 
 
 if __name__ == '__main__':
-    # New list name can be specified by positional arguments, if not default is used
+    # New list name can be specified by positional arguments, if not it will be requested
     try:
-        LIST_NAME = sys.argv[1]
+        list_name = sys.argv[1]
     except IndexError:
-        LIST_NAME = 'TestList'
+        list_name = input('Please insert the new list name: ').strip()
     with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
-        create_list(LIST_NAME, _channel)
+        create_list(list_name, _channel)
