@@ -24,6 +24,7 @@ This started the [gRPC Quick Start Tutorial] for Python. If you are new with thi
     * [Run Create List stub script](#run-create-list-stub-script)
     * [Run Get List stub script](#run-get-list-stub-script)
     * [Run Delete List stub script](#run-delete-list-stub-script)
+    * [Run Get TodoLists paginated stub script](#run-get-todolists-paginated-stub-script)
     * [Run unittests script](#run-unittests-script)
     * [Run unittests with coverage script](#run-unittests-with-coverage-script)
     * [Run linter pylint script](#run-linter-pylint-script)
@@ -121,7 +122,7 @@ If a list with that `id` does not exist, the stub will fail and show an error me
 
 ### Get TodoLists paginated stub
 
-You can execute the get TodoLists paginated stub running the `.bat` file [stub_get_lists_paginated.bat](#todo)
+You can execute the get TodoLists paginated stub running the `.bat` file [stub_get_lists_paginated.bat](#run-get-todolists-paginated-stub-script)
 
 This script will fetch the `TodoLists` paginated calling the `TodoLists.List` stub.
 
@@ -205,7 +206,7 @@ This script will run the gRPC server
 
 This script will execute the stub to create a new List `TodoLists.Create`
 
-The script expects a positional argument to define the desired list `name`, if no parameter is defined it will be requested as user input
+The script expects a positional argument to define the desired list `name`, if no parameter is defined it will be requested as user input.
 
 ```
 ./scripts/stub_create_list.bat ListName
@@ -215,7 +216,7 @@ The script expects a positional argument to define the desired list `name`, if n
 
 This script will get a List by `id` with the stub `TodoLists.Get`
 
-The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input
+The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input.
 
 ```
 ./scripts/stub_get_list.bat id
@@ -225,10 +226,20 @@ The script expects a positional argument to define the desired list `id`, if no 
 
 This script will delete a List by `id` with the stub `TodoLists.Delete`
 
-The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input
+The script expects a positional argument to define the desired list `id`, if no parameter is defined it will be requested as user input.
 
 ```
 ./scripts/stub_delete_list.bat id
+```
+
+## Run Get TodoLists paginated stub script
+
+This script will fetch the `TodoLists` paginated calling the `TodoLists.List` stub.
+
+The script expects two positional arguments to define the `page_number` and `page_size`, if no parameter is defined it will be requested as user input.
+
+```
+./scripts/stub_get_lists_paginated.bat 1 10
 ```
 
 ## Run unittests script
