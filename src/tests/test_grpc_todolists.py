@@ -33,7 +33,7 @@ class TestGrpcTodoLists(BaseTestClass):
         response = create_list(new_list_name, self.grpc_insecure_channel)
 
         # Then
-        db_entries = TodoListDBHandler.get_all()
+        db_entries = TodoListDBHandler.get_lists_paginated()
         self.assertEqual(len(db_entries), 1, 'Error DB should have only 1 entry')
         self.assertEqual(response.id, db_entries[0].id)
         self.assertEqual(response.name, new_list_name)
@@ -54,7 +54,7 @@ class TestGrpcTodoLists(BaseTestClass):
             create_list(test_list_name, self.grpc_insecure_channel)
 
         # Then
-        db_entries = TodoListDBHandler.get_all()
+        db_entries = TodoListDBHandler.get_lists_paginated()
         self.assertEqual(len(db_entries), 1, 'Error DB should have only 1 entry')
         self.assertEqual(ex.exception.args[0].code, StatusCode.INVALID_ARGUMENT)
         self.assertIn('List name must be unique', ex.exception.args[0].details)
@@ -74,7 +74,7 @@ class TestGrpcTodoLists(BaseTestClass):
             create_list(test_list_name, self.grpc_insecure_channel)
 
         # Then
-        db_entries = TodoListDBHandler.get_all()
+        db_entries = TodoListDBHandler.get_lists_paginated()
         self.assertEqual(len(db_entries), 0, 'Error DB should have 0 entries')
         self.assertEqual(ex.exception.args[0].code, StatusCode.UNAVAILABLE)
         self.assertIn('failed to connect to all addresses', ex.exception.args[0].details)
@@ -92,7 +92,7 @@ class TestGrpcTodoLists(BaseTestClass):
         response = get_list(test_list_id, self.grpc_insecure_channel)
 
         # Then
-        db_entries = TodoListDBHandler.get_all()
+        db_entries = TodoListDBHandler.get_lists_paginated()
         self.assertEqual(response.id, db_entries[0].id)
         self.assertEqual(response.name, db_entries[0].name)
 
@@ -126,7 +126,7 @@ class TestGrpcTodoLists(BaseTestClass):
         response = delete_list(test_list_id, self.grpc_insecure_channel)
 
         # Then
-        db_entries = TodoListDBHandler.get_all()
+        db_entries = TodoListDBHandler.get_lists_paginated()
         self.assertEqual(len(db_entries), 0)
 
     def test_delete_list_fail_not_found(self):

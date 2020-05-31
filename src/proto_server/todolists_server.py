@@ -22,6 +22,7 @@ from grpc._server import _Context, _Server
 from google.rpc import code_pb2, status_pb2
 import grpc
 
+from config.config import MAX_PAGE_SIZE
 from database.database import Database
 from database.todo_lists_db_handler import TodoListDBHandler
 import proto.v1.todolists_pb2 as todolists_pb2
@@ -126,6 +127,23 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
                 'List with id "{}" not found.'.format(request.id),
                 code_pb2.NOT_FOUND
             )))
+
+    def List(self, request: todolists_pb2.ListTodoListsRequest, context: _Context) -> todolists_pb2.ListTodoListsReply:
+        """
+        List TodoLists gRPC method.
+
+        In the field `request.page_size` the client can define how many lists will be retrieved per page.
+            If `page_size` is 0, default value will be 10.
+            The maximum value allowed is MAX_PAGE_SIZE, if `page_size` is a bigger value it will be set the max value
+
+        If the field `request.page_number` the client define the desired page number.
+            If `page_number` is lower than 1, it will be set to the first page, 1.
+
+        :param request: Send by the client
+        :param context: gRPC _Context
+        :return:
+        """
+        raise NotImplementedError()
 
 
 def create_server(server_port: int) -> [_Server, int]:

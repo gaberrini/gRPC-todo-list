@@ -57,5 +57,6 @@ message ListTodoListsRequest{
 // Reply of list TodoLists
 message ListTodoListsReply {
     repeated TodoList todo_lists = 1;
-    int32 next_page_number = 2;
+    string next_page_number = 2;
+    int32 count = 3;
 }

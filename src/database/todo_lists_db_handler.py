@@ -7,6 +7,7 @@ Classes:
 from typing import List
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
+from config.config import MAX_PAGE_SIZE
 from database.database import Database
 from database.tables.todo_lists import TodoList
 
@@ -41,13 +42,28 @@ class TodoListDBHandler(Database):
             cls.session_maker.remove()
 
     @classmethod
-    def get_all(cls) -> List[TodoList]:
+    def get_lists_paginated(cls, page_number: int = 1, page_size: int = 10) -> List[TodoList]:
         """
-        :return: All TodoLists DB entries
+        Return TodoLists entries from the DB paginated.
+
+        The max `page_size` allowed is `MAX_PAGE_SIZE`,
+         if a bigger value is received it will be set to `MAX_PAGE_SIZE`
+
+        If a negative `page_number` is received it will be set to 1.
+
+        :param page_number: Page number to return. Default 1
+        :param page_size: Number of items per page. Default 10
+        :return: TodoLists entries in that page
         """
         try:
             session = cls.session_maker()
-            return session.query(TodoList).all()
+
+            page_number = page_number if page_number > 0 else 1
+            page_size = page_size if page_size < MAX_PAGE_SIZE else MAX_PAGE_SIZE
+
+            _last_entry = page_number * page_size
+
+            return session.query(TodoList).slice(_last_entry - page_size, _last_entry).all()
         finally:
             cls.session_maker.remove()
 

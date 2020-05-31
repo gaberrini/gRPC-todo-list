@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='todolists',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x18proto/v1/todolists.proto\x12\ttodolists\"\x07\n\x05\x45mpty\"\x1f\n\x11\x44\x65leteListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"\x1c\n\x0eGetListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"$\n\x08TodoList\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\"!\n\x11\x43reateListRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"+\n\x0f\x43reateListReply\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\">\n\x14ListTodoListsRequest\x12\x11\n\tpage_size\x18\x01 \x01(\x05\x12\x13\n\x0bpage_number\x18\x02 \x01(\x05\"W\n\x12ListTodoListsReply\x12\'\n\ntodo_lists\x18\x01 \x03(\x0b\x32\x13.todolists.TodoList\x12\x18\n\x10next_page_number\x18\x02 \x01(\x05\x32\x88\x02\n\tTodoLists\x12\x42\n\x06\x43reate\x12\x1c.todolists.CreateListRequest\x1a\x1a.todolists.CreateListReply\x12\x35\n\x03Get\x12\x19.todolists.GetListRequest\x1a\x13.todolists.TodoList\x12\x38\n\x06\x44\x65lete\x12\x1c.todolists.DeleteListRequest\x1a\x10.todolists.Empty\x12\x46\n\x04List\x12\x1f.todolists.ListTodoListsRequest\x1a\x1d.todolists.ListTodoListsReplyb\x06proto3'
+  serialized_pb=b'\n\x18proto/v1/todolists.proto\x12\ttodolists\"\x07\n\x05\x45mpty\"\x1f\n\x11\x44\x65leteListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"\x1c\n\x0eGetListRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"$\n\x08TodoList\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\"!\n\x11\x43reateListRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"+\n\x0f\x43reateListReply\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\">\n\x14ListTodoListsRequest\x12\x11\n\tpage_size\x18\x01 \x01(\x05\x12\x13\n\x0bpage_number\x18\x02 \x01(\x05\"f\n\x12ListTodoListsReply\x12\'\n\ntodo_lists\x18\x01 \x03(\x0b\x32\x13.todolists.TodoList\x12\x18\n\x10next_page_number\x18\x02 \x01(\t\x12\r\n\x05\x63ount\x18\x03 \x01(\x05\x32\x88\x02\n\tTodoLists\x12\x42\n\x06\x43reate\x12\x1c.todolists.CreateListRequest\x1a\x1a.todolists.CreateListReply\x12\x35\n\x03Get\x12\x19.todolists.GetListRequest\x1a\x13.todolists.TodoList\x12\x38\n\x06\x44\x65lete\x12\x1c.todolists.DeleteListRequest\x1a\x10.todolists.Empty\x12\x46\n\x04List\x12\x1f.todolists.ListTodoListsRequest\x1a\x1d.todolists.ListTodoListsReplyb\x06proto3'
 )
 
 
@@ -271,7 +271,14 @@ _LISTTODOLISTSREPLY = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='next_page_number', full_name='todolists.ListTodoListsReply.next_page_number', index=1,
-      number=2, type=5, cpp_type=1, label=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='count', full_name='todolists.ListTodoListsReply.count', index=2,
+      number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -289,7 +296,7 @@ _LISTTODOLISTSREPLY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=293,
-  serialized_end=380,
+  serialized_end=395,
 )
 
 _LISTTODOLISTSREPLY.fields_by_name['todo_lists'].message_type = _TODOLIST
@@ -367,8 +374,8 @@ _TODOLISTS = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=383,
-  serialized_end=647,
+  serialized_start=398,
+  serialized_end=662,
   methods=[
   _descriptor.MethodDescriptor(
     name='Create',

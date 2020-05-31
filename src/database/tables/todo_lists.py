@@ -29,3 +29,11 @@ class TodoList(db.Base):  # pylint: disable=too-few-public-methods
         :param name: New List name
         """
         self.name = name
+
+    def __repr__(self):
+        """
+        String representation of the list
+
+        :return:
+        """
+        return '{}-{}'.format(self.id, self.name)
