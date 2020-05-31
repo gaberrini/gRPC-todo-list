@@ -132,12 +132,19 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
         """
         List TodoLists gRPC method.
 
-        In the field `request.page_size` the client can define how many lists will be retrieved per page.
-            If `page_size` is 0, default value will be 10.
-            The maximum value allowed is MAX_PAGE_SIZE, if `page_size` is a bigger value it will be set the max value
+        Request fields:
+            In the field `request.page_size` the client can define how many lists will be retrieved per page.
+                If `page_size` is 0, default value will be 10.
+                The maximum value allowed is MAX_PAGE_SIZE, if `page_size` is a bigger value it will be set the max value
 
-        If the field `request.page_number` the client define the desired page number.
-            If `page_number` is lower than 1, it will be set to the first page, 1.
+            If the field `request.page_number` the client define the desired page number.
+                If `page_number` is lower than 1, it will be set to the first page, 1.
+
+        Reply fields:
+            ListTodoListsReply.todo_lists: List[TodoList] = TodoLists in the requested page.
+            ListTodoListsReply.next_page_number: str = Next page number,
+             if there are not elements in the next page, empty string is returned.
+            ListTodoListsReply.count: int = Total number of TodoLists in the DB
 
         :param request: Send by the client
         :param context: gRPC _Context
