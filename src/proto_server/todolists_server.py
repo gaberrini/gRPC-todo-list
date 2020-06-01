@@ -11,7 +11,7 @@ Classes:
     TodoLists(todolists_pb2_grpc.TodoListsServicer): Definition of the gRPC Servicer methods
 
 Attributes:
-    todolists_server.create_server (function): Create the gRPC server and add an insecured port to listen to
+    todolists_server.create_secured_server (function): Create the gRPC server and add SSL credentials
     todolists_server.serve (function): Run the gRPC server and wait for stubs connections
 """
 from concurrent import futures
@@ -25,8 +25,12 @@ import grpc
 from config.config import MAX_PAGE_SIZE
 from database.database import Database
 from database.todo_lists_db_handler import TodoListDBHandler
+import config.credentials as credentials
 import proto.v1.todolists_pb2 as todolists_pb2
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc
+
+
+_LISTEN_ADDRESS_TEMPLATE = 'localhost:{}'
 
 
 class TodoLists(todolists_pb2_grpc.TodoListsServicer):
@@ -163,16 +167,26 @@ class TodoLists(todolists_pb2_grpc.TodoListsServicer):
         return todolists_pb2.ListTodoListsReply(next_page_number=next_page_number, count=count, todo_lists=todo_lists)
 
 
-def create_server(server_port: int) -> [_Server, int]:
+def create_secured_server(server_port: int) -> [_Server, int]:
     """
     Create a gRPC Server that handles todolists.TodoLists gRPC Service
+    The channel will be secured with SSL credentials
 
     :param server_port: Port to listen to
     :return: gRPC _Server
     """
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10),)
     todolists_pb2_grpc.add_TodoListsServicer_to_server(TodoLists(), server)
-    server.add_insecure_port('[::]:{}'.format(server_port))
+
+    # Loading credentials
+    server_credentials = grpc.ssl_server_credentials(((
+        credentials.SERVER_CERTIFICATE_KEY,
+        credentials.SERVER_CERTIFICATE,
+    ),))
+
+    # Pass down credentials
+    server.add_secure_port(_LISTEN_ADDRESS_TEMPLATE.format(server_port),
+                           server_credentials)
     return server
 
 
@@ -186,6 +200,6 @@ def serve(server_port: int):
     :return:
     """
     print('Running TodoLists gRCP server')
-    server = create_server(server_port)
+    server = create_secured_server(server_port)
     server.start()
     server.wait_for_termination()
