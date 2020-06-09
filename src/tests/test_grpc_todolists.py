@@ -31,7 +31,7 @@ class TestGrpcTodoLists(BaseTestClass):
         new_list_name = 'TestList'
 
         # When
-        response = create_list(new_list_name, self.grpc_insecure_channel)
+        response = create_list(new_list_name, self.grpc_secured_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
@@ -53,7 +53,7 @@ class TestGrpcTodoLists(BaseTestClass):
         TodoListDBHandler.new_todo_list_entry(test_list_name)
 
         # When
-        create_list(test_list_name, self.grpc_insecure_channel)
+        create_list(test_list_name, self.grpc_secured_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
@@ -73,7 +73,7 @@ class TestGrpcTodoLists(BaseTestClass):
         self.grpc_server.stop(None)
 
         # When
-        create_list(test_list_name, self.grpc_insecure_channel)
+        create_list(test_list_name, self.grpc_secured_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
@@ -90,7 +90,7 @@ class TestGrpcTodoLists(BaseTestClass):
         test_list_id = TodoListDBHandler.new_todo_list_entry('TestList')
 
         # When
-        response = get_list(test_list_id, self.grpc_insecure_channel)
+        response = get_list(test_list_id, self.grpc_secured_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
@@ -109,7 +109,7 @@ class TestGrpcTodoLists(BaseTestClass):
         invalid_id = 666
 
         # When
-        get_list(invalid_id, self.grpc_insecure_channel)
+        get_list(invalid_id, self.grpc_secured_channel)
 
         # Then
         self.assertIn('List with id "{}" not found.'.format(invalid_id), print_mock.getvalue())
@@ -124,7 +124,7 @@ class TestGrpcTodoLists(BaseTestClass):
         test_list_id = TodoListDBHandler.new_todo_list_entry('TestList')
 
         # When
-        delete_list(test_list_id, self.grpc_insecure_channel)
+        delete_list(test_list_id, self.grpc_secured_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
@@ -142,7 +142,7 @@ class TestGrpcTodoLists(BaseTestClass):
         invalid_id = 666
 
         # When
-        delete_list(invalid_id, self.grpc_insecure_channel)
+        delete_list(invalid_id, self.grpc_secured_channel)
 
         # Then
         self.assertIn('List with id "{}" not found.'.format(invalid_id), print_mock.getvalue())
@@ -157,7 +157,7 @@ class TestGrpcTodoLists(BaseTestClass):
         [TodoListDBHandler.new_todo_list_entry(str(i)) for i in range(5)]  # pylint: disable=expression-not-assigned
 
         # When
-        response = get_lists_paginated(2, 2, self.grpc_insecure_channel)
+        response = get_lists_paginated(2, 2, self.grpc_secured_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
@@ -177,7 +177,7 @@ class TestGrpcTodoLists(BaseTestClass):
         [TodoListDBHandler.new_todo_list_entry(str(i)) for i in range(5)]  # pylint: disable=expression-not-assigned
 
         # When
-        response = get_lists_paginated(3, 2, self.grpc_insecure_channel)
+        response = get_lists_paginated(3, 2, self.grpc_secured_channel)
 
         # Then
         db_entries = TodoListDBHandler.get_lists_paginated()
@@ -198,7 +198,7 @@ class TestGrpcTodoLists(BaseTestClass):
         self.grpc_server.stop(None)
 
         # When
-        get_lists_paginated(1, 1, self.grpc_insecure_channel)
+        get_lists_paginated(1, 1, self.grpc_secured_channel)
 
         # Then
         self.assertIn('failed to connect to all addresses', print_mock.getvalue())
