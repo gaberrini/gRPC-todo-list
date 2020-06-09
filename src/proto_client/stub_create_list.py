@@ -18,7 +18,6 @@ Attributes:
 """
 import os
 import sys
-import grpc
 from grpc._channel import _InactiveRpcError, Channel
 from grpc import StatusCode
 
@@ -27,7 +26,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import proto.v1.todolists_pb2 as todolists_pb2  # pylint: disable=wrong-import-position
 import proto.v1.todolists_pb2_grpc as todolists_pb2_grpc  # pylint: disable=wrong-import-position
 from config.config import GRPC_SERVER_PORT  # pylint: disable=wrong-import-position
-from proto_client.helpers import get_input  # pylint: disable=wrong-import-position
+from proto_client.helpers import get_input, create_secured_client_channel  # pylint: disable=wrong-import-position
 
 
 def create_list(name: str, channel: Channel) -> todolists_pb2.CreateListReply:
@@ -71,7 +70,7 @@ def main():
         list_name = sys.argv[1]
     except IndexError:
         list_name = get_input('Please insert the new list name: ').strip()
-    with grpc.insecure_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
+    with create_secured_client_channel('localhost:{}'.format(GRPC_SERVER_PORT)) as _channel:
         create_list(list_name, _channel)
 
 
