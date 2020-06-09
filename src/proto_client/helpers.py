@@ -6,7 +6,7 @@ Attributes:
 """
 import contextlib
 import grpc
-from grpc._channel import Channel
+from contextlib import _GeneratorContextManager
 from config.credentials import ROOT_CERTIFICATE
 
 
@@ -21,10 +21,16 @@ def get_input(message: str) -> str:
 
 
 @contextlib.contextmanager
-def create_secured_client_channel(addr: str) -> Channel:
+def create_secured_client_channel(addr: str) -> _GeneratorContextManager:
     """
     Create a secured client channel using the SSL ROOT_CERTIFICATE
-    and yield it to be used in a `with` statement
+
+    The function return a GeneratorContextManager.
+    When called with the `with` statement it will return a grpc._channel.Channel object
+
+    Example:
+        $ with create_secured_client_channel('localhost:50500') as _channel:
+        $   ...
 
     :param addr: Channel address
     :return:

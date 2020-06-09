@@ -3,7 +3,7 @@
 Attributes:
     SERVER_CERTIFICATE (bytes): Server cert
     SERVER_CERTIFICATE_KEY (bytes): Server cert key
-    ROOT_CERTIFICATE (bytes): Root cert, used by the stubs
+    ROOT_CERTIFICATE (bytes): Client cert, used by the stubs
     credentials._load_credential_from_file (func): Load credentials from files
 """
 import os
