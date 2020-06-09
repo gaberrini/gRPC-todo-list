@@ -5,7 +5,6 @@ Classes:
     BaseTestClass(unittest.TestCase)
 """
 import unittest
-import grpc
 import database.database as db
 from proto_server.todolists_server import create_secured_server
 from proto_client.helpers import create_secured_client_channel

@@ -4,9 +4,9 @@ Attributes:
     helpers.get_input (func): Function to request user input with a message
     helpers.create_secured_client_channel (func): Create a secured channel with ssl credentials
 """
+from contextlib import _GeneratorContextManager
 import contextlib
 import grpc
-from contextlib import _GeneratorContextManager
 from config.credentials import ROOT_CERTIFICATE
 
 

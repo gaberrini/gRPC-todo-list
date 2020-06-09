@@ -17,8 +17,8 @@ def _load_credential_from_file(filepath: str) -> bytes:
     :return: Cert file
     """
     real_path = os.path.join(os.path.dirname(__file__), filepath)
-    with open(real_path, 'rb') as f:
-        return f.read()
+    with open(real_path, 'rb') as _f:
+        return _f.read()
 
 
 SERVER_CERTIFICATE = _load_credential_from_file('credentials/localhost.crt')
